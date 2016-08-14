@@ -1,9 +1,6 @@
 
 var angular = require('angular');
 
-var ngflow = require('./lib/ng-flow-standalone.js')
-
-
 var app = angular.module('app', ['flow']);
 
 // Define the `PhoneListController` controller on the `phonecatApp` module
