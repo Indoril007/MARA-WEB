@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  
+  <body flow-prevent-drop>
+
+  <h1><%= title %></h1>
+  <p>Welcome to <%= title %></p>
+  
+  <div flow-init="{target: '/upload'}"
+     flow-files-submitted="$flow.upload()"
+     flow-file-success="$file.msg = $message">
+
+  <input type="file" flow-btn/>
+  Input OR Other element as upload button
+  <span class="btn" flow-btn>Upload File</span>
+
+  <div class="alert" flow-drop>
+    Drag And Drop your file here
+  </div>
+  
+  <table>
+    <tr ng-repeat="file in $flow.files">
+        <td>{{$index+1}}</td>
+        <td>{{file.name}}</td>
+        <td>{{file.msg}}</td>
+    </tr>
+  </table>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="js/bundle.js"></script>
+</body>
+  
+</html>
+
