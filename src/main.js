@@ -1,7 +1,11 @@
 
-var angular = require('angular');
 
-var app = angular.module('app', ['flow']);
+var angular = require('angular');
+var app = angular.module('app', []);
+
+Dropzone.options.myDropzone = {
+	autoProcessQueue: false,
+}
 
 // Define the `PhoneListController` controller on the `phonecatApp` module
 // app.controller('PhoneListController', function PhoneListController($scope) {

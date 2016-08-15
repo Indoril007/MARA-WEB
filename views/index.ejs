@@ -2,37 +2,26 @@
 <html ng-app="app">
   <head>
     <title><%= title %></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
     <link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' href='/stylesheets/dropzone.css' />
+	
   </head>
   
-  <body flow-prevent-drop>
+  <body>
 
   <h1><%= title %></h1>
   <p>Welcome to <%= title %></p>
+
+	<form action="/file-upload"
+      class="dropzone"
+      id="my-dropzone"></form>
   
-  <div flow-init="{target: '/upload'}"
-     flow-files-submitted="$flow.upload()"
-     flow-file-success="$file.msg = $message">
-
-  <input type="file" flow-btn/>
-  Input OR Other element as upload button
-  <span class="btn" flow-btn>Upload File</span>
-
-  <div class="alert" flow-drop>
-    Drag And Drop your file here
-  </div>
-  
-  <table>
-    <tr ng-repeat="file in $flow.files">
-        <td>{{$index+1}}</td>
-        <td>{{file.name}}</td>
-        <td>{{file.msg}}</td>
-    </tr>
-  </table>
-	</div>
-
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="js/dropzone.js"></script>
 	<script src="js/bundle.js"></script>
 </body>
   
