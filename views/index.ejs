@@ -15,9 +15,16 @@
   <h1><%= title %></h1>
   <p>Welcome to <%= title %></p>
 
-	<form action="/file-upload"
+	<form action="/targets/upload"
       class="dropzone"
       id="my-dropzone"></form>
+	  
+	<div>
+		<button id="start-upload" class="btn btn-primary">
+			<span class="glyphicon glyphicon-upload"></span>
+			<span> Start Upload </span>
+		</button>
+	</div>
   
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

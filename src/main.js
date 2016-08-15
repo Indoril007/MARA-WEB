@@ -5,6 +5,19 @@ var app = angular.module('app', []);
 
 Dropzone.options.myDropzone = {
 	autoProcessQueue: false,
+	init: function() {
+		var submitButton = document.querySelector("#start-upload");
+		submitButton.style.visibility = "hidden";
+		var myDropzone = this;
+	
+		submitButton.addEventListener("click", function() {
+			myDropzone.processQueue();
+		});
+		
+		myDropzone.on("addedfile", function(file) {
+			submitButton.style.visibility = "visible";
+		})
+	},
 }
 
 // Define the `PhoneListController` controller on the `phonecatApp` module

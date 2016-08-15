@@ -14,6 +14,7 @@
     "express": "~4.13.4",
     "express-browserify": "^1.0.2",
     "morgan": "~1.7.0",
+    "multer": "^1.2.0",
     "serve-favicon": "~2.3.0"
   }
 }
