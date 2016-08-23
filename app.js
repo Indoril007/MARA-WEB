@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var expressBrowserify = require('express-browserify');
 
 // var managerAPITest = require('./ManagerAPITest');
 
@@ -24,9 +23,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// automatically compile and serve the front-end js
-app.get('/js/bundle.js', expressBrowserify('src/main.js'));
 
 app.use('/', routes);
 app.use('/users', users);
