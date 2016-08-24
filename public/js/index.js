@@ -1,48 +1,86 @@
+(function(){
+	var app = angular.module('app', ['bp.img.cropper']);
 
-var app = angular.module('app', ['bp.img.cropper']);
 
-Dropzone.options.myDropzone = {
-	autoProcessQueue: false,
-	init: function() {
+	app.controller('cropController', ['$scope', function($scope) {
 		
-		var myDropzone = this;
-		var submitButton = document.querySelector("#start-upload");
-		submitButton.style.visibility = "hidden";
+		var selectedIndex = null;
 		
-		submitButton.addEventListener("click", function() {
-			myDropzone.processQueue();
-		});
+		$scope.images = [];
 		
-		myDropzone.on("addedfile", function(file) {
+		$scope.addImage = function(src) {
+			$scope.images.push({
+				"src": src,
+				active: true,
+			})
+			console.log("image added");
+		};
+		
+		$scope.selectImage = function(index) {
+			selectedIndex = index;
+			$scope.selected = $scope.images[index];
+			console.log("image selected " + index)
+		};
+		
+		// $scope.selected = {
+			// src: 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg',
+			// active: true,
+		// };
+		
+	}]);
+
+	Dropzone.options.myDropzone = {
+		autoProcessQueue: false,
+		init: function() {
 			
-			submitButton.style.visibility = "visible";
+			var myDropzone = this;
+			var submitButton = document.querySelector("#start-upload");
 			
-			console.log(file);
+			submitButton.style.visibility = "hidden";
 			
-			file.previewElement.imgurl =  window.URL.createObjectURL(file);
-			file.previewElement.onclick = function () {
-				$("#image-cropper").attr("src", file.previewElement.imgurl);
-			}
+			myDropzone.filenumber = 0;
 			
-			// var canvas = document.getElementById('imageCanvas');
-			// var ctx = canvas.getContext('2d');
-			// var img = new Image();
-			// img.src = window.URL.createObjectURL(file);
+			submitButton.addEventListener("click", function() {
+				myDropzone.processQueue();
+			});
 			
-			// img.onload = function(){
-			  // var ratio = img.width/img.height;
-			  // if (img.width > img.height){
-				// ctx.canvas.width = window.innerWidth/2;
-				// ctx.canvas.height = ctx.canvas.width/ratio;
-			  // } else{
-				// ctx.canvas.height = window.innerHeight/2;
-				// ctx.canvas.width = ctx.canvas.height*ratio;
-			  // }
-			  // ctx.drawImage(img,0,0,ctx.canvas.width,ctx.canvas.height);
-			  // console.log("here")
-			// }
-			
-			
-		})
-	},
-}
+			myDropzone.on("addedfile", function(file) {
+				let index = myDropzone.filenumber;
+				
+				submitButton.style.visibility = "visible";
+				console.log(file);
+				
+				var imgurl =  window.URL.createObjectURL(file);
+				file.previewElement.imgurl = imgurl;
+				
+				angular.element(document.getElementById('cropController')).scope().addImage(imgurl);
+
+				file.previewElement.onclick = function () {
+					angular.element(document.getElementById('cropController')).scope().selectImage(index);
+					angular.element(document.getElementById('cropController')).scope().$apply();
+				}
+				
+				myDropzone.filenumber += 1;
+				
+			})
+		},
+	};
+
+	// var canvas = document.getElementById('imageCanvas');
+				// var ctx = canvas.getContext('2d');
+				// var img = new Image();
+				// img.src = window.URL.createObjectURL(file);
+				
+				// img.onload = function(){
+				  // var ratio = img.width/img.height;
+				  // if (img.width > img.height){
+					// ctx.canvas.width = window.innerWidth/2;
+					// ctx.canvas.height = ctx.canvas.width/ratio;
+				  // } else{
+					// ctx.canvas.height = window.innerHeight/2;
+					// ctx.canvas.width = ctx.canvas.height*ratio;
+				  // }
+				  // ctx.drawImage(img,0,0,ctx.canvas.width,ctx.canvas.height);
+				  // console.log("here")
+				// }
+})();		
