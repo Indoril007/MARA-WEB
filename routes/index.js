@@ -1,6 +1,8 @@
 var express = require('express');
 var multer = require('multer');
-var upload = multer({ dest: 'uploads/'})
+var upload = multer({ dest: 'uploads/'});
+var path = require('path');
+var base64image = require('base64-image');
 var fs = require('fs');
 var router = express.Router();
 
@@ -23,6 +25,10 @@ router.post('/targets/upload', upload.single("file"), function (req, res, next) 
 	src.on('end', function() { res.status(204).end(); });
 	src.on('error', function(error) { console.log( "ERROR"); });
 	
-})
+});
+
+router.post('/uploader/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
+	res.status(204).end();
+});
 
 module.exports = router;

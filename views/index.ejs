@@ -33,7 +33,14 @@
 		</div>
 		
 	
-		<img id="image-cropper" ng-src="{{ selected.src }}" croppable="" crop-show="selected.active" ></img>
+		<img id="image-cropper" ng-src="{{ selected.src }}" croppable="" crop-show="selected.active" crop-name="croppedImage" />
+		<br>
+		<img id="cropped-image" data-ng-src="{{ $croppable.croppedImage.$data.base64 }}" />
+		
+		<button id="base64-post" ng-click="postBase64()">
+			<span>Base64 Upload</span>
+		</button>
+		
 	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>

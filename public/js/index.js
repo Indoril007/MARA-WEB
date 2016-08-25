@@ -22,6 +22,16 @@
 			console.log("image selected " + index)
 		};
 		
+		$scope.postBase64 = function() {
+			$.post('/uploader/test.jpg', {
+				base64: $scope.$croppable.croppedImage.$data.base64
+			}, function(result) {
+				
+			});
+			
+			console.log($scope.$croppable.croppedImage.$data.base64);
+		}
+		
 		// $scope.selected = {
 			// src: 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg',
 			// active: true,
