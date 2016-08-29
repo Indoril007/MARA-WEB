@@ -28,7 +28,7 @@ router.post('/targets/upload', upload.single("file"), function (req, res, next) 
 });
 
 router.post('/uploader/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
-	res.status(204).end();
+	console.log('GOT HERE');
 });
 
 module.exports = router;

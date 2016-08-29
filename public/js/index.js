@@ -1,16 +1,55 @@
 (function(){
 	var app = angular.module('app', ['bp.img.cropper']);
 
-
+	app.directive('ngBackImg', function(){
+		return function(scope, element, attrs){
+				var url = attrs.ngBackImg;
+				element.css({
+					'background-image': 'url(' + url +')',
+					'background-size' : 'cover'
+				});
+			};
+	});​
+	
+	app.directive('ngHeight', function(){
+		return function(scope, element, attrs){
+				var height = attrs.ngHeight;
+				element.css({
+					'height': 'url(' + url +')',
+				});
+			};
+	});​
+	
+	// app.directive('ngWidth', function(){
+		// return function(scope, element, attrs){
+				// var url = attrs.backImg;
+				// element.css({
+					// 'background-image': 'url(' + url +')',
+					// 'background-size' : 'cover'
+				// });
+			// };
+	// });​
+	
+	// app.directive('backImg', function(){
+		// return function(scope, element, attrs){
+				// var url = attrs.backImg;
+				// element.css({
+					// 'background-image': 'url(' + url +')',
+					// 'background-size' : 'cover'
+				// });
+			// };
+	// });​
+	
 	app.controller('cropController', ['$scope', function($scope) {
 		
 		var selectedIndex = null;
 		
 		$scope.images = [];
 		
-		$scope.addImage = function(src) {
+		$scope.addImage = function(src, name) {
 			$scope.images.push({
 				"src": src,
+				"name": name, 
 				active: true,
 			})
 			console.log("image added");
@@ -23,7 +62,7 @@
 		};
 		
 		$scope.postBase64 = function() {
-			$.post('/uploader/test.jpg', {
+			$.post('/uploader/' + $scope.selected.name, {
 				base64: $scope.$croppable.croppedImage.$data.base64
 			}, function(result) {
 				
@@ -63,7 +102,7 @@
 				var imgurl =  window.URL.createObjectURL(file);
 				file.previewElement.imgurl = imgurl;
 				
-				angular.element(document.getElementById('cropController')).scope().addImage(imgurl);
+				angular.element(document.getElementById('cropController')).scope().addImage(imgurl, file.name);
 
 				file.previewElement.onclick = function () {
 					angular.element(document.getElementById('cropController')).scope().selectImage(index);
@@ -75,6 +114,10 @@
 			})
 		},
 	};
+	
+	$("#augmentation-add").click( function() {
+		
+	})
 
 	// var canvas = document.getElementById('imageCanvas');
 				// var ctx = canvas.getContext('2d');
