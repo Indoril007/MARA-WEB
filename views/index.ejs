@@ -13,7 +13,12 @@
 	<body>
 
 		<div id="dropzone">
-			<span class="message"> Drop your target image here </span>
+		
+			<div class="message"><span> Drop your target image here </span></div>
+		
+			<img id="image-cropper" ng-src="" croppable="" crop-show="False" crop-name="croppedImage" />
+
+		
 		</div>
 	
 	
@@ -23,29 +28,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 		<script src="js/konva.js"></script>
 		<script src="js/angular.cropper.min.js"></script>
-		<!-- <script src="js/index.js"></script> -->
-	
-		<script>
-		
-			var dropzone = document.getElementById("dropzone")
-		
-			dropzone.addEventListener("dragover", dragOver, false);
-			dropzone.addEventListener("dragleave", dragLeave, false);
-			dropzone.addEventListener("drop", drop, false);
-		
-			function dragOver(e) {
-				e.target.className = "drag-hover";
-			}
-			
-			function dragLeave(e) {
-				e.target.className = "";
-			}
-			
-			function drop(e) {
-			
-			}
-		
-		</script>
-	
+		<script src="js/index.js"></script>
+
 	</body>
 </html>
