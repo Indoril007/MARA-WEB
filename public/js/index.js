@@ -1,44 +1,5 @@
 (function(){
 	var app = angular.module('app', ['bp.img.cropper']);
-
-	app.directive('ngBackImg', function(){
-		return function(scope, element, attrs){
-				var url = attrs.ngBackImg;
-				element.css({
-					'background-image': 'url(' + url +')',
-					'background-size' : 'cover'
-				});
-			};
-	});​
-	
-	app.directive('ngHeight', function(){
-		return function(scope, element, attrs){
-				var height = attrs.ngHeight;
-				element.css({
-					'height': 'url(' + url +')',
-				});
-			};
-	});​
-	
-	// app.directive('ngWidth', function(){
-		// return function(scope, element, attrs){
-				// var url = attrs.backImg;
-				// element.css({
-					// 'background-image': 'url(' + url +')',
-					// 'background-size' : 'cover'
-				// });
-			// };
-	// });​
-	
-	// app.directive('backImg', function(){
-		// return function(scope, element, attrs){
-				// var url = attrs.backImg;
-				// element.css({
-					// 'background-image': 'url(' + url +')',
-					// 'background-size' : 'cover'
-				// });
-			// };
-	// });​
 	
 	app.controller('cropController', ['$scope', function($scope) {
 		
@@ -62,6 +23,9 @@
 		};
 		
 		$scope.postBase64 = function() {
+			
+			handleBackgroundImg($scope.$croppable.croppedImage.$data.base64);
+			
 			$.post('/uploader/' + $scope.selected.name, {
 				base64: $scope.$croppable.croppedImage.$data.base64
 			}, function(result) {
@@ -115,9 +79,39 @@
 		},
 	};
 	
-	$("#augmentation-add").click( function() {
+	
+	function handleBackgroundImg(src){
+			var width = window.innerWidth/2;
+			var height = window.innerHeight/2;
+		  var background = new Konva.Layer();
+		  var img = new Image();
+		  img.onload = function(){
+			var ratio = img.width/img.height;
+			  var stage = new Konva.Stage({
+				container: 'container',
+				width: width,
+				height: width/ratio
+			  });
+			  var TargetImg = new Konva.Image({
+				x: 0,
+				y: 0,
+				image: img,
+				width: width,
+				height: width/ratio
+			  });
+					 // add the shape to the layer
+		  background.add(TargetImg);
+
+		  // add the layer to the stage
+		  stage.add(background);
+		  }
+
+		img.src = src; 
+	}
+	
+	// $("#augmentation-add").click( function() {
 		
-	})
+	// })
 
 	// var canvas = document.getElementById('imageCanvas');
 				// var ctx = canvas.getContext('2d');
