@@ -1,8 +1,20 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+#dropzone {
+	min-height: 200px;
+	border: 2px dashed #0087F7;
+	border-radius: 5px;
+	background: white;
+	padding: 20px 20px; 
 }
 
-a {
-  color: #00B7FF;
+#dropzone .message {
+	text-align: center;
+	margin: 2em 0; 
+}
+
+#dropzone.drag-hover {
+	border-style: solid; 
+}
+
+#dropzone.drag-hover .message {
+	opacity: 0.5; 
 }
