@@ -1,40 +1,47 @@
 
 (function() {
 
-	var app = angular.module('app', ['bp.img.cropper']);
+	var app = angular.module('mara-app', ['bp.img.cropper']);
 
-	var dropzone = document.getElementById("dropzone")
-
-	dropzone.addEventListener("dragover", dragOver, false);
-	dropzone.addEventListener("dragleave", dragLeave, false);
-	dropzone.addEventListener("drop", drop, false);
-
-	function dragOver(e) {
-		e.preventDefault();
-		dropzone.className = "drag-hover";
-	}
-
-	function dragLeave(e) {
-		e.preventDefault();
-		dropzone.className = "";
-	}
-
-	function drop(e) {
-		e.preventDefault();
-		dropzone.className = "";
-		var file = e.dataTransfer.files[0];
-		upload(file);
-	}
-
-	function upload(file) {
-		var imgurl = window.URL.createObjectURL(file);
+	app.directive("dragAndDrop", ['$window', function($window) {
 		
-		$("#image-cropper").attr("ng-src", imgurl);
-		$("#image-cropper").attr("crop-show", "True");
-	}
-	
-	// app.controller('cropController', function() {
+		return {
+			
+			restrict: 'A',
+			
+			link: function($scope, element, attrs) {
+				
+				element.bind('dragover', function(e){
+					e.stopPropagation();
+					e.preventDefault();
+					$scope.$apply(function () {
+						$scope.divClass = "drag-hover";
+					});
+
+				});
+				
+				element.bind('dragleave', function(e){
+					e.stopPropagation();
+					e.preventDefault();
+					$scope.$apply(function () {
+						$scope.divClass = "";
+					});
+				});
+				
+				element.bind('drop', function(e){
+					e.stopPropagation();
+					e.preventDefault();
+					var file = e.originalEvent.dataTransfer.files[0];
+					var imgurl = $window.URL.createObjectURL(file);
+					$scope.$apply(function () {
+						$scope.divClass = "";
+						$scope.imgsrc = imgurl;
+					});
+				});
+				
+			},
+		};
 		
-	// });
+	}]);
 
 })();
