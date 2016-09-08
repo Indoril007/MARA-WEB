@@ -3,8 +3,8 @@
 	border: 2px dashed #0087F7;
 	border-radius: 5px;
 	background: white;
-	padding: 20px 20px; 
-	margin: 50px;
+	padding: 1%; 
+	margin: 3% 4%;
 }
 
 #dropzone .message {
@@ -22,4 +22,17 @@
 
 #dropzone.drag-hover .message {
 	opacity: 1; 
+}
+
+#augmenter {
+	min-height: 200px;
+	border: 2px dashed #00ff00;
+	border-radius: 5px;
+	background: white;
+	padding: 1%; 
+	margin: 3% 4%;
+}
+
+#postButton {
+	margin: 0px 4%;
 }

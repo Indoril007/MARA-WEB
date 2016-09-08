@@ -1,146 +1,51 @@
-
-(function() {
-
-	var app = angular.module('mara-app', ['bp.img.cropper']);
-
-	var dragAndDropper = function (scope, element, attrs) {
-		element.bind('dragover', function(e){
-			e.stopPropagation();
-			e.preventDefault();
-			scope.$apply(function () {
-				scope.divClass = "drag-hover";
-			});
-
-		});
-		
-		element.bind('dragleave', function(e){
-			e.stopPropagation();
-			e.preventDefault();
-			scope.$apply(function () {
-				scope.divClass = "";
-			});
-		});
-		
-		element.bind('drop', function(e){
-			e.stopPropagation();
-			e.preventDefault();
-			var file = e.originalEvent.dataTransfer.files[0];
-			var filename = file.name;
-			var fileURL = window.URL.createObjectURL(file);
-			scope.$apply(function () {
-				scope.divClass = "";
-				scope.hideMessage();
-				if (scope.dropzoneVisible) {
-					scope.setTarget(fileURL, filename);
-				} else if (scope.augmenterVisible) {
-					scope.addAugmentation(fileURL, filename)
-					handleAugm(file);
-				}
-			});
-		});
-	}
-	
-	app.directive("dragAndDrop", ['$window', function($window) {
-		return {
-			restrict: 'A',
-			link: dragAndDropper,
-		};
-	}]);
-	
-	app.controller("bodyController", ["$scope", function($scope) {
-		$scope.messageVisible = true;
-		$scope.dropzoneVisible = true;
-		$scope.augmenterVisible = false;
-		$scope.augmentations = [];
-		
-		$scope.hideMessage = function() {
-			$scope.messageVisible = false;
-		};
-		
-		$scope.showMessage = function() {
-			$scope.messageVisible = true;
-		};
-		
-		$scope.dropzoneVisible = true;
-		
-		$scope.hideDropzone = function() {
-			$scope.dropzoneVisible = false;
-		};
-		
-		$scope.showDropzone = function() {
-			$scope.dropzoneVisible = true;
-		};
-		
-		$scope.hideAugmenter = function() {
-			$scope.augmenterVisible = false;
-		};
-		
-		$scope.showAugmenter = function() {
-			$scope.augmenterVisible = true;
-		};
-		
-		$scope.setTarget = function(targetURL, filename) {
-			$scope.targetURL = targetURL;
-			$scope.filename = filename;
-		};
-		
-		$scope.addAugmentation = function(augmentationURL, filename) {
-			$scope.augmentations.push({
-				url: augmentationURL,
-				name: filename,
-			});
-		};
-		
-		$scope.post64 = function() {
-			$.post('/uploader/' + $scope.filename, {
-					base64: $scope.$croppable.croppedImage.$data.base64
-				}, function(result) {
-					
-			});
-		};
-		
-		$scope.uploadTarget = function() {
-			$scope.post64();
-			$scope.hideDropzone();
-			$scope.showAugmenter();
-			handleBackground($scope.$croppable.croppedImage.$data.base64);
-		};
-	}])
-
-var width = window.innerWidth * 0.9;
+var width = window.innerWidth / 2;
+var height = window.innerHeight / 2;
 var target_ratio;
 var augm_ratio;
 var stage;
-	
-function handleBackground(base64data) {
-	var augmenter = document.getElementById("augmenter");	
-	var background = new Konva.Layer();
-	var img = new Image();
-	img.onload = function() {
-		target_ratio = img.width / img.height;
-		//if (img.width > img.height){
-		stage = new Konva.Stage({
-			container: 'augmenter',
-			width: width,
-			height: width / target_ratio
-		});
-		var TargetImg = new Konva.Image({
-			x: 0,
-			y: 0,
-			image: img,
-			width: width,
-			height: width / target_ratio
-		});
-		// add the shape to the layer
-		background.add(TargetImg);
 
-		// add the layer to the stage
-		stage.add(background);
-	}
-	img.src = base64data;
+var BackgroundLoader = document.getElementById('BackgroundLoader');
+BackgroundLoader.addEventListener('change', handleBackground, false);
+
+var AugmentImg = document.getElementById('AugmentImg');
+AugmentImg.addEventListener('change', handleAugm, false);
+
+
+/********************************************************************************************************************/
+function handleBackground(evt) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        var background = new Konva.Layer();
+        var img = new Image();
+        img.onload = function() {
+            target_ratio = img.width / img.height;
+            //if (img.width > img.height){
+            stage = new Konva.Stage({
+                container: 'container',
+                width: width,
+                height: width / target_ratio
+            });
+            var TargetImg = new Konva.Image({
+                x: 0,
+                y: 0,
+                image: img,
+                width: width,
+                height: width / target_ratio
+            });
+            // add the shape to the layer
+            background.add(TargetImg);
+
+            // add the layer to the stage
+            stage.add(background);
+        }
+
+        img.src = event.target.result;
+    }
+    reader.readAsDataURL(evt.target.files[0]);
 }
-	
-function handleAugm(file) {
+
+/********************************************************************************************************************/
+function handleAugm(evt) {
     var reader2 = new FileReader();
     reader2.onload = function(event) {
         var tempImg = new Image();
@@ -180,9 +85,8 @@ function handleAugm(file) {
         //alert(event.target.result);
         tempImg.src = event.target.result;
     }
-    reader2.readAsDataURL(file);
+    reader2.readAsDataURL(evt.target.files[0]);
 }
-
 
 function update(activeAnchor) {
     var group = activeAnchor.getParent();
@@ -285,6 +189,3 @@ function addAnchor(group, x, y, name) {
 
     group.add(anchor);
 }
-
-
-})();
