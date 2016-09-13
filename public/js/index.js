@@ -27,14 +27,18 @@
 			var file = e.originalEvent.dataTransfer.files[0];
 			var filename = file.name;
 			var fileURL = window.URL.createObjectURL(file);
+			
+			
 			scope.$apply(function () {
 				scope.divClass = "";
 				scope.hideMessage();
 				if (scope.dropzoneVisible) {
 					scope.setTarget(fileURL, filename);
 				} else if (scope.augmenterVisible) {
+					var length = scope.augmentations.length;
 					scope.addAugmentation(fileURL, filename)
-					handleAugm(file);
+					handleAugm(file, length);
+					scope.zipButtonVisible = true;
 				}
 			});
 		});
@@ -51,6 +55,8 @@
 		$scope.messageVisible = true;
 		$scope.dropzoneVisible = true;
 		$scope.augmenterVisible = false;
+		$scope.zipButtonVisible = false;
+		
 		$scope.augmentations = [];
 		
 		$scope.hideMessage = function() {
@@ -107,10 +113,30 @@
 		};
 	}])
 
-var width = window.innerWidth * 0.9;
+var width = window.innerWidth * 0.58;
 var target_ratio;
 var augm_ratio;
 var stage;
+
+var augJSON = {};
+var zip = new JSZip();
+
+var blobLink = document.getElementById('blob');
+
+if (JSZip.support.blob){
+	function downloadWithBlob(){
+		zip.generateAsync({type:"blob"}).then(function (blob) {
+			saveAs(blob, "download.zip");
+			// ADD JSON FILE EXTRACT HERE AS WELL //
+		}, function(err){
+			blobLink.innerHTML += " " + err;
+		});
+		return false;
+	}
+	$(document).on("click", "#blob", downloadWithBlob);  
+} else{
+	blobLink.innerHTML += " (not supported on this browser)";
+}
 	
 function handleBackground(base64data) {
 	var augmenter = document.getElementById("augmenter");	
@@ -140,7 +166,7 @@ function handleBackground(base64data) {
 	img.src = base64data;
 }
 	
-function handleAugm(file) {
+function handleAugm(file, augID) {
     var reader2 = new FileReader();
     reader2.onload = function(event) {
         var tempImg = new Image();
@@ -178,9 +204,30 @@ function handleAugm(file) {
             layer1.draw();
         }
         //alert(event.target.result);
-        tempImg.src = event.target.result;
+		imgData = event.target.result;
+		tempImg.src = imgData;
+		
+		imgData = imgData.split(',');
+		
+		
+		var re = new RegExp("data:image\/(.+);", "g");
+		var matches = re.exec(imgData[0]);
+		var filename = "aug"+ augID + "." + matches[1];
+		console.log(filename);
+		
+		augJSON["aug" + augID] = {
+									name: "testname" + augID,
+									src: filename,
+									scale: 0.04,
+									xcoord: 0.2,
+									ycoord: 0.3,
+									description: "testDescription",
+								};
+		
+		zip.folder("MARA-files").file(filename,imgData[1] ,{base64: true});
     }
     reader2.readAsDataURL(file);
+	
 }
 
 
@@ -286,5 +333,33 @@ function addAnchor(group, x, y, name) {
     group.add(anchor);
 }
 
+var zipButton = document.getElementById('zipButton');
+
+if (JSZip.support.blob){
+	
+	function downloadWithBlob(){
+		zip.generateAsync({type:"blob"}).then(function (blob) {
+			saveAs(blob, "download.zip");
+			// ADD JSON FILE EXTRACT HERE AS WELL //
+		}, function(err){
+			zipButton.innerHTML += " " + err;
+		});
+		return false;
+	}
+	
+	$(document).on("click", "#zipButton", function() {
+		zip.folder("MARA-files").file("augmentations.json", JSON.stringify(augJSON));
+		downloadWithBlob();
+	});  
+} else{
+	zipButton.innerHTML += " (not supported on this browser)";
+}
+
+$(document).on("click", "#reset", function(){
+	stage.clear();
+	zip.remove("MARA-files");
+	ctr=0;
+	document.getElementById("blob").disabled = true;
+});
 
 })();
