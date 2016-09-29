@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 router.get('/file/:name', cors(), function(req, res, next) {
 	
 	var options = {
-		root: __dirname + '/../public/',
+		root: __dirname + '/../assets/',
 		dotfiles: 'deny',
 		headers: {
 		'x-timestamp': Date.now(),
