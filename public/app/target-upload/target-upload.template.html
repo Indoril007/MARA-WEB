@@ -1,0 +1,13 @@
+<div id="target-upload">
+
+	<div id="dropzone" ng-class="divClass" ng-show="dropzoneVisible" drag-and-drop>
+			
+		<div class="message" ng-show="messageVisible"><span> Drop your target image here </span></div>
+
+		<img id="image-cropper" ng-src="{{ targetURL }}" croppable crop-name="croppedImage" />
+
+	</div>
+
+	<button id="postButton" class="btn btn-default" ng-show="uploadButtonVisible" ng-click="uploadTarget()"><span> Upload cropped area </span></button>
+	
+</div>

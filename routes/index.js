@@ -1,21 +1,50 @@
 var express = require('express');
 var cors = require('cors');
-// var multer = require('multer');
-// var upload = multer({ dest: 'uploads/'});
 var path = require('path');
 var base64image = require('base64-image');
 var fs = require('fs');
+var ManagerApi = require('./../ManagerAPI.js');
 var router = express.Router();
 
+// create API using own token and version
+var token = 'eda9b06ac4a22d924f421d3e3e35dbac';
+var targetsApi = new ManagerApi(token, 2);
+
+
+
 /* GET home page. */
-// router.get('/', function(req, res, next) {
-  // res.render('index', { title: 'Express' });
-// });
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
 
 router.get('/file/:name', cors(), function(req, res, next) {
 	
 	var options = {
 		root: __dirname + '/../assets/',
+		dotfiles: 'deny',
+		headers: {
+		'x-timestamp': Date.now(),
+		'x-sent': true
+		}
+	};
+
+	var fileName = req.params.name;
+		res.sendFile(fileName, options, function (err) {
+		if (err) {
+			console.log(err);
+			res.status(err.status).end();
+		}
+		else {
+			console.log('Sent:', fileName);
+		}
+	});
+	
+});
+
+router.get('/targets/:name', cors(), function(req, res, next) {
+	
+	var options = {
+		root: __dirname + '/../uploads/',
 		dotfiles: 'deny',
 		headers: {
 		'x-timestamp': Date.now(),
@@ -52,9 +81,46 @@ router.get('/file/:name', cors(), function(req, res, next) {
 	
 // });
 
+// MAKE SURE FILENAME HAS NO SPACES
+
 router.post('/uploader/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
+	var imgPath = res.locals.image.abs;
+	var fileName = res.locals.image.name;
+	var fullUrl = req.protocol + '://' + req.get('host') + '/targets/' + fileName; 
+	var targetName = "targetName";
 	
-});
+	console.log(imgPath);
+	console.log(fullUrl)
+	
+	targetsApi.createTargetCollection("targetCollection")
+		.then(createdTargetCollection => {
+			var id = createdTargetCollection.id;
+			console.log(`created targetCollection: ${id}`);
+			
+			return ( Promise.resolve()
+						.then (() => {
+							var target = {name: targetName, imageUrl: fullUrl}
+							console.log(target);
+							return targetsApi.addTarget(id, target); 
+						})
+						.then(target => {
+							console.log(`created target ${target.generationId}`);
+						})
+						// generate target collection
+						.then(() => {
+							console.log(`PUBLISH TARGET COLLECTION`);
+						})
+						.then(() => targetsApi.generateTargetCollection(id))
+						.then(archive => {
+							console.log(`generated cloud archive: ${archive.id}`);
+						})
+					);
+				})
+		.catch(error => {
+			console.error("ERROR OCCURRED:", error.message, error);
+		});
+
+});	
 
 
 

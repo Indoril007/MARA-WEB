@@ -12,21 +12,25 @@
 
 	<body ng-controller="bodyController">
 
-		<div id="dropzone" ng-class="divClass" ng-show="dropzoneVisible" drag-and-drop>
+<!-- 		<div id="dropzone" ng-class="divClass" ng-show="dropzoneVisible" drag-and-drop>
 		
 			<div class="message" ng-show="messageVisible"><span> Drop your target image here </span></div>
 		
 			<img id="image-cropper" ng-src="{{ targetURL }}" croppable crop-name="croppedImage" />
 
-		</div>
+		</div> -->
 		
-		<div id="augmenter" ng-show="augmenterVisible" drag-and-drop>
-		</div>
+		<target-upload></target-upload>
+		<augment-upload></augment-upload>
 		
+		
+		<!-- <div id="augmenter" ng-show="augmenterVisible" drag-and-drop>
+		</div>
+		 -->
 		<!-- <img id="cropped-image" data-ng-src="{{ $croppable.croppedImage.$data.base64 }}" /> -->
 	
-		<button id="postButton" class="btn btn-default" ng-click="uploadTarget()"><span> Upload cropped area </span></button>
-		<button id="zipButton" class="btn btn-default" ng-show="zipButtonVisible"><span> Download zipped augmentations </span></button>
+		<!-- <button id="postButton" class="btn btn-default" ng-click="uploadTarget()"><span> Upload cropped area </span></button> -->
+		<!-- <button id="zipButton" class="btn btn-default" ng-show="zipButtonVisible"><span> Download zipped augmentations </span></button> -->
 	
 		
 		<script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
