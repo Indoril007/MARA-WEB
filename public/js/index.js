@@ -109,7 +109,7 @@
 				
 				augmentationsObject = new Target(data.targetName, data.collectionId, null, null, null)
 				
-				handleBackground('http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000//file/' + $scope.filename);
+				handleBackground('http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/' + $scope.filename);
 			})
 			.fail(function(data) {
 			})
