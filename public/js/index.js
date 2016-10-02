@@ -122,7 +122,6 @@
 			$scope.showAugmenter();
 			$scope.post64();
 			
-			
 		};
 	}])
 
@@ -181,7 +180,9 @@ var ctr = 0;
 // }
 
 function handleBackground(imgUrl) {
-    
+		
+		console.log("HANDLING BACKGROUND");
+		
         var background = new Konva.Layer();
         var img = new Image();
         img.onload = function() {
