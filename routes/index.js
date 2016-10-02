@@ -146,7 +146,7 @@ router.post('/uploader/target/:filename', base64image(path.join(__dirname, '../u
 							var data = {targetCollection: "targetCollection", targetName: targetName, collectionId: id, targetUrl: fullUrl};
 							res.set('Content-Type', 'application/json');
 							res.end(JSON.stringify(data));
-						});
+						})
 					);
 				})
 		.catch(error => {
