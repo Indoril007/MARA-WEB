@@ -17,31 +17,31 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+// router.get('/file/:name', cors(), function(req, res, next) {
+	
+	// var options = {
+		// root: __dirname + '/../assets/',
+		// dotfiles: 'deny',
+		// headers: {
+		// 'x-timestamp': Date.now(),
+		// 'x-sent': true
+		// }
+	// };
+
+	// var fileName = req.params.name;
+		// res.sendFile(fileName, options, function (err) {
+		// if (err) {
+			// console.log(err);
+			// res.status(err.status).end();
+		// }
+		// else {
+			// console.log('Sent:', fileName);
+		// }
+	// });
+	
+// });
+
 router.get('/file/:name', cors(), function(req, res, next) {
-	
-	var options = {
-		root: __dirname + '/../assets/',
-		dotfiles: 'deny',
-		headers: {
-		'x-timestamp': Date.now(),
-		'x-sent': true
-		}
-	};
-
-	var fileName = req.params.name;
-		res.sendFile(fileName, options, function (err) {
-		if (err) {
-			console.log(err);
-			res.status(err.status).end();
-		}
-		else {
-			console.log('Sent:', fileName);
-		}
-	});
-	
-});
-
-router.get('/targets/:name', cors(), function(req, res, next) {
 	
 	var options = {
 		root: __dirname + '/../uploads/',
@@ -83,11 +83,39 @@ router.get('/targets/:name', cors(), function(req, res, next) {
 
 // MAKE SURE FILENAME HAS NO SPACES
 
-router.post('/uploader/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
+
+router.post('/uploader/json/:filename', function(req, res, next) {
+	var dir = path.join(__dirname, '../uploads');
+	// var abs = path.join(dir, req.params.filename);
+	var abs = path.join(dir, 'myDevices.json');
+	var reqdata = req.body.json;
+	
+	fs.writeFile(abs, reqdata, function(err) {
+      if (err) return next(err);
+	  
+      });
+	  
+	  var fullUrl = req.protocol + '://' + req.get('host') + '/file/' + req.params.filename;
+	  
+	  var resdata = {jsonUrl: fullUrl};
+	  res.set('Content-Type', 'application/json');
+	  res.end(JSON.stringify(resdata));
+	
+})
+
+router.post('/uploader/augmentation/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
+	
+	var fullUrl = req.protocol + '://' + req.get('host') + '/file/' + req.params.filename; 
+	var data = {augmentationUrl: fullUrl};
+	res.set('Content-Type', 'application/json');
+	res.end(JSON.stringify(data));
+});
+
+router.post('/uploader/target/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
 	var imgPath = res.locals.image.abs;
 	var fileName = res.locals.image.name;
-	var fullUrl = req.protocol + '://' + req.get('host') + '/targets/' + fileName; 
-	var targetName = "targetName";
+	var targetName = fileName.split('.')[0];
+	var fullUrl = req.protocol + '://' + req.get('host') + '/file/' + fileName; 
 	
 	console.log(imgPath);
 	console.log(fullUrl)
@@ -114,12 +142,20 @@ router.post('/uploader/:filename', base64image(path.join(__dirname, '../uploads'
 						.then(archive => {
 							console.log(`generated cloud archive: ${archive.id}`);
 						})
+						.then(() => {
+							var data = {targetCollection: "targetCollection", targetName: targetName, collectionId: id, targetUrl: fullUrl};
+							res.set('Content-Type', 'application/json');
+							res.end(JSON.stringify(data));
+						});
 					);
 				})
 		.catch(error => {
 			console.error("ERROR OCCURRED:", error.message, error);
 		});
-
+		
+	// var data = {targetCollection: "targetCollection", targetName: targetName, collectionId: "collectionId", targetUrl: fullUrl};
+	// res.set('Content-Type', 'application/json');
+	// res.end(JSON.stringify(data));
 });	
 
 

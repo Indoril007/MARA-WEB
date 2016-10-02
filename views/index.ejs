@@ -26,7 +26,7 @@
 		<!-- <img id="cropped-image" data-ng-src="{{ $croppable.croppedImage.$data.base64 }}" /> -->
 	
 		<button id="postButton" class="btn btn-default" ng-click="uploadTarget()"><span> Upload cropped area </span></button>
-		<button id="zipButton" class="btn btn-default" ng-show="zipButtonVisible"><span> Download zipped augmentations </span></button>
+		<button id="augButton" class="btn btn-default" ng-show="zipButtonVisible"><span> Upload Augmentation Data </span></button>
 	
 		
 		<script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
@@ -34,8 +34,9 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 		<script src="js/konva.js"></script>
 		<script src="js/angular.cropper.min.js"></script>
-		<script src="js/FileSaver.js"></script>
-        <script src="js/jszip.min.js"></script>
+		<!-- <script src="js/FileSaver.js"></script> -->
+        <!-- <script src="js/jszip.min.js"></script> -->
+		<script src="js/devices.js"></script>
 		<script src="js/index.js"></script>
 
 	</body>
