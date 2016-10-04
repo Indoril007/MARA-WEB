@@ -140,11 +140,13 @@ Target.parseJSONobject = function(object) {
 		target.addButtons([Button.parseJSONobject(object.buttons[i])]);
 	}
 	
-	target.addTutorialButton(Button.parseJSONobject(object.tutorialButton));
+	if (object.tutorialButton) target.addTutorialButton(Button.parseJSONobject(object.tutorialButton));
 	
-	for (var key in object.tutorials) {
-		if (object.tutorials.hasOwnProperty(key)) {
-			target.addTutorial(Tutorial.parseJSONobject(object.tutorials[key]));
+	if (object.tutorials) {
+		for (var key in object.tutorials) {
+			if (object.tutorials.hasOwnProperty(key)) {
+				target.addTutorial(Tutorial.parseJSONobject(object.tutorials[key]));
+			}
 		}
 	}
 	
@@ -152,18 +154,12 @@ Target.parseJSONobject = function(object) {
 }
 
 Target.parseJSONobjects = function(objects) {
-	var devices = {};
+	var targets = {};
 	for (var key in objects) {
 		if (objects.hasOwnProperty(key)) {
-			devices[key] = Target.parseJSONobject(objects[key]);
+			targets[key] = Target.parseJSONobject(objects[key]);
 		}
 	}
-	return devices;
+	return targets;
 }
-
-
-
-
-
-
 
