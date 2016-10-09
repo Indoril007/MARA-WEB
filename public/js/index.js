@@ -318,7 +318,7 @@ function handleAugm(file, filename) {
     reader2.onload = function(event) {
 		
 		if(augm_counter) {
-			var description = document.getElementById("descriptionInput").value();
+			var description = document.getElementById("descriptionInput").value;
 			augm_desc[augm_counter] = description;
 		}
 		
@@ -558,7 +558,7 @@ function uploadAugmentations() {
 	//var initTarget = new Device(backgroundimg); 
 	var initAug; //variable to store augmentation json initiation
 
-	var description = document.getElementById("descriptionInput").value();
+	var description = document.getElementById("descriptionInput").value;
 	augm_desc[augm_counter] = description;
 	
 	//obtain x,y position and scale from augmentation images
