@@ -95,12 +95,12 @@ router.post('/uploader/json/:filename', function(req, res, next) {
 	  
       });
 	  
-	  var fullUrl = req.protocol + '://' + req.get('host') + '/file/' + req.params.filename;
-	  
-	  var resdata = {jsonUrl: fullUrl};
-	  res.set('Content-Type', 'application/json');
-	  res.end(JSON.stringify(resdata));
-	
+	var fullUrl = req.protocol + '://' + req.get('host') + '/file/' + req.params.filename;
+
+	var resdata = {jsonUrl: fullUrl};
+	res.set('Content-Type', 'application/json');
+	res.end(JSON.stringify(resdata));
+
 })
 
 router.post('/uploader/augmentation/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {

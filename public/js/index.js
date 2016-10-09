@@ -316,6 +316,12 @@ function handleAugm(file, filename) {
     //  description.value=""; //when new aug added, clear description box
     var reader2 = new FileReader();
     reader2.onload = function(event) {
+		
+		if(augm_counter) {
+			var description = document.getElementById("descriptionInput").value();
+			augm_desc[augm_counter] = description;
+		}
+		
         var tempImg = new Image();
         tempImg.onload = function() {
             augm_ratio[augm_counter] = tempImg.width / tempImg.height;
@@ -552,11 +558,14 @@ function uploadAugmentations() {
 	//var initTarget = new Device(backgroundimg); 
 	var initAug; //variable to store augmentation json initiation
 
+	var description = document.getElementById("descriptionInput").value();
+	augm_desc[augm_counter] = description;
+	
 	//obtain x,y position and scale from augmentation images
 
 	for (var i=0; i<augm_counter; i++){
 		// var button = new Button("//NAME OF AUGOBJECT//", augm_url[i], grpX[i], grpY[i], augm_scale[i], augm_desc[i]);
-		var button = new Button(augm_filename[i], augm_url[i+1], augm_scale[i+1], grpX[i+1], grpY[i+1],  "// Description placeholder //");
+		var button = new Button(augm_filename[i], augm_url[i+1], augm_scale[i+1], grpX[i+1], grpY[i+1],  augm_desc[i+1]);
 		console.log(button);
 		augmentationsObject.addButtons([button]);
 	}
