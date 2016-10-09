@@ -13,9 +13,9 @@ var targetsApi = new ManagerApi(token, 2);
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+// router.get('/', function(req, res, next) {
+  // res.render('index', { title: 'Express' });
+// });
 
 // router.get('/file/:name', cors(), function(req, res, next) {
 	
@@ -120,42 +120,42 @@ router.post('/uploader/target/:filename', base64image(path.join(__dirname, '../u
 	console.log(imgPath);
 	console.log(fullUrl)
 	
-	targetsApi.createTargetCollection("targetCollection")
-		.then(createdTargetCollection => {
-			var id = createdTargetCollection.id;
-			console.log(`created targetCollection: ${id}`);
+	// targetsApi.createTargetCollection("targetCollection")
+		// .then(createdTargetCollection => {
+			// var id = createdTargetCollection.id;
+			// console.log(`created targetCollection: ${id}`);
 			
-			return ( Promise.resolve()
-						.then (() => {
-							var target = {name: targetName, imageUrl: fullUrl}
-							console.log(target);
-							return targetsApi.addTarget(id, target); 
-						})
-						.then(target => {
-							console.log(`created target ${target.generationId}`);
-						})
-						// generate target collection
-						.then(() => {
-							console.log(`PUBLISH TARGET COLLECTION`);
-						})
-						.then(() => targetsApi.generateTargetCollection(id))
-						.then(archive => {
-							console.log(`generated cloud archive: ${archive.id}`);
-						})
-						.then(() => {
-							var data = {targetCollection: "targetCollection", targetName: targetName, collectionId: id, targetUrl: fullUrl};
-							res.set('Content-Type', 'application/json');
-							res.end(JSON.stringify(data));
-						})
-					);
-				})
-		.catch(error => {
-			console.error("ERROR OCCURRED:", error.message, error);
-		});
+			// return ( Promise.resolve()
+						// .then (() => {
+							// var target = {name: targetName, imageUrl: fullUrl}
+							// console.log(target);
+							// return targetsApi.addTarget(id, target); 
+						// })
+						// .then(target => {
+							// console.log(`created target ${target.generationId}`);
+						// })
+						// // generate target collection
+						// .then(() => {
+							// console.log(`PUBLISH TARGET COLLECTION`);
+						// })
+						// .then(() => targetsApi.generateTargetCollection(id))
+						// .then(archive => {
+							// console.log(`generated cloud archive: ${archive.id}`);
+						// })
+						// .then(() => {
+							// var data = {targetCollection: "targetCollection", targetName: targetName, collectionId: id, targetUrl: fullUrl};
+							// res.set('Content-Type', 'application/json');
+							// res.end(JSON.stringify(data));
+						// })
+					// );
+				// })
+		// .catch(error => {
+			// console.error("ERROR OCCURRED:", error.message, error);
+		// });
 		
-	// var data = {targetCollection: "targetCollection", targetName: targetName, collectionId: "collectionId", targetUrl: fullUrl};
-	// res.set('Content-Type', 'application/json');
-	// res.end(JSON.stringify(data));
+	var data = {targetCollection: "targetCollection", targetName: targetName, collectionId: "collectionId", targetUrl: fullUrl};
+	res.set('Content-Type', 'application/json');
+	res.end(JSON.stringify(data));
 });	
 
 

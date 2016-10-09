@@ -1,8 +1,6 @@
 #dropzone {
 	min-height: 200px;
 	max-width: 60%;
-	border: 2px dashed #0087F7;
-	border-radius: 5px;
 	background: white;
 	padding: 1%; 
 	margin: 3% 4% 1%;
@@ -17,9 +15,9 @@
 	margin: 2em 0; 
 }
 
-#dropzone.drag-hover {
+/* #dropzone.drag-hover {
 	border-style: solid; 
-}
+} */
 
 #dropzone.drag-hover .message {
 	opacity: 1; 

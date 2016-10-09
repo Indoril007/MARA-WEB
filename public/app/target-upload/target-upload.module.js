@@ -1,2 +1,6 @@
+(function() {
+
 // Define the `phoneList` module
-angular.module('targetUpload', []);
+angular.module('targetUpload', ['dragAndDrop', 'cropper']);
+
+}());
