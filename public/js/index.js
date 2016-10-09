@@ -142,8 +142,10 @@ var width = window.innerWidth *0.58;
 var target_ratio;
 var target_width;
 var target_height;
+var target_scale;
 var augm_ratio = [];
 var augm_width = [];
+var augm_height;
 var augm_scale = [];
 var augm_url = [];
 var augm_filename = [];
@@ -189,6 +191,9 @@ function handleBackground(imgUrl) {
             target_ratio = img.width / img.height;
             target_width = width;
             target_height = width / target_ratio;
+			
+			target_scale = target_width / img.width;
+            console.log("The background scaled by " + target_scale);
             //if (img.width > img.height){
             stage = new Konva.Stage({
                 container: 'augmenter',
@@ -314,15 +319,18 @@ function handleAugm(file, filename) {
         var tempImg = new Image();
         tempImg.onload = function() {
             augm_ratio[augm_counter] = tempImg.width / tempImg.height;
-            augm_width[augm_counter] = tempImg.width;
-
+            augm_height = target_height;                                            // Upload augmentation to size of target image (wikitude standard default unit)
+            augm_width[augm_counter] = augm_height*augm_ratio[augm_counter];        // Calculate the width for each augmentation
+            console.log("original width: "+ tempImg.width);
+            console.log("scaled width: "+ augm_width[augm_counter]);
+			
             var layer1 = new Konva.Layer();
             stage.add(layer1);
 
             //1st augmentation image
             var AugImg_1 = new Konva.Image({
-                width: tempImg.width,
-                height: tempImg.height
+                width: augm_width[augm_counter]/3,
+                height: augm_height/3
             });
 
             var Aug1Group = new Konva.Group({
@@ -338,15 +346,15 @@ function handleAugm(file, filename) {
             layer1.add(Aug1Group);
             Aug1Group.add(AugImg_1);
             addAnchor(Aug1Group, 0, 0, 'topLeft');
-            addAnchor(Aug1Group, tempImg.width, 0, 'topRight');
-            addAnchor(Aug1Group, 0, tempImg.height, 'bottomLeft');
-            addDragAnchor(Aug1Group, tempImg.width, tempImg.height, 'bottomRight');
+            addAnchor(Aug1Group, augm_width[augm_counter]/3, 0, 'topRight');
+            addAnchor(Aug1Group, 0, augm_height/3, 'bottomLeft');
+            addDragAnchor(Aug1Group, augm_width[augm_counter]/3, augm_height/3, 'bottomRight');
             //test = Aug1Group.get('.topLeft')[0].getAttr('x');
             //alert(test);
 
             AugImg_1.image(tempImg);
             test2 = Aug1Group.id();
-            console.log(Aug1Group.id());
+			
             layer1.draw();
         }
 		
@@ -360,7 +368,7 @@ function handleAugm(file, filename) {
 		
 		
 		augm_filename[augm_counter] = filename;
-		augm_scale[augm_counter] = 1;
+		augm_scale[augm_counter] = 1/3;
 		augm_counter++;
 		
         // //delay half second to make sure image finish loading
@@ -472,11 +480,13 @@ function addDragAnchor(group, x, y, name) {
         var topLeft = group.get('.topLeft')[0];
         var topRight = group.get('.topRight')[0];
         var bottomRight = group.get('.bottomRight')[0];
-        grpX[groupID] = group.getX() + (topRight.getX() / 2);
-        grpX[groupID] = grpX[groupID] / target_width;
+        grpX[groupID] = group.getX() + (topRight.getX() / 2);               //getting center of the group
         grpY[groupID] = group.getY() + (bottomRight.getY() / 2);
-        grpY[groupID] = grpY[groupID] / target_height;
-        console.log("Group X is " + grpX[groupID]);
+        grpX[groupID] = (grpX[groupID] / target_width)-0.5;                 // wikitude take center of image as origin, canvas take top left corner as origin
+        grpX[groupID] = grpX[groupID]*target_width/target_height ;          // extra step: originally was scaled to the target width
+                                                                            //             this convert the offset X to scale of SDU
+        grpY[groupID] = ((grpY[groupID] / target_height)-0.5)*-1;           // wikitude take upwards as +ve, canvas take downwards as -ve
+
         console.log("Group Y is " + grpY[groupID]);
         console.log("Augmentation resize scale is " + augm_scale[groupID]);
 		console.log("groupID is: " + groupID);
@@ -528,7 +538,7 @@ function update(activeAnchor) {
     }
 
     //calculate resize scale
-    augm_scale[groupID] = dragWidth / augm_width[groupID];
+    augm_scale[groupID] = dragHeight / augm_height;
 }
 
 function uploadAugmentations() {
