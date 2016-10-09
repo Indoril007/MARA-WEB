@@ -112,6 +112,7 @@ router.post('/uploader/augmentation/:filename', base64image(path.join(__dirname,
 });
 
 router.post('/uploader/target/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
+	console.log(res.locals);
 	var imgPath = res.locals.image.abs;
 	var fileName = res.locals.image.name;
 	var targetName = fileName.split('.')[0];
