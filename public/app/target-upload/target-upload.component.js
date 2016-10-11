@@ -8,7 +8,7 @@ angular.
 		
 		// allocating this to self for use in callback functions
 		var self = this;
-		self.targetName = "";
+		self.targetName = "Target Name";
 		
 		// This event is triggered by the drag-and-drop directive when a file is dropped
 		$scope.$on('fileUploaded', function(event, file) {

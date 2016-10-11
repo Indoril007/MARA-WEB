@@ -4,13 +4,18 @@ var path = require('path');
 var base64image = require('base64-image');
 var fs = require('fs');
 var ManagerApi = require('./../ManagerAPI.js');
+var mongoose = require('mongoose');
 var router = express.Router();
 
-// create API using own token and version
+// token and API creating for wikitude API
 var token = 'eda9b06ac4a22d924f421d3e3e35dbac';
 var targetsApi = new ManagerApi(token, 2);
 
-
+// URL configuration for connecting mongoose to mongo database
+var mongoPass = process.argv[2];
+if (!mongoPass) throw "MongoDb password not provided";
+var mongoUrl = 'mongodb://marauser:' + mongoPass + '@ds041924.mlab.com:41924/maradatabase';
+mongoose.connect(mongoUrl);
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -41,29 +46,29 @@ var targetsApi = new ManagerApi(token, 2);
 	
 // });
 
-router.get('/file/:name', cors(), function(req, res, next) {
+// router.get('/file/:name', cors(), function(req, res, next) {
 	
-	var options = {
-		root: __dirname + '/../uploads/',
-		dotfiles: 'deny',
-		headers: {
-		'x-timestamp': Date.now(),
-		'x-sent': true
-		}
-	};
+	// var options = {
+		// root: __dirname + '/../uploads/',
+		// dotfiles: 'deny',
+		// headers: {
+		// 'x-timestamp': Date.now(),
+		// 'x-sent': true
+		// }
+	// };
 
-	var fileName = req.params.name;
-		res.sendFile(fileName, options, function (err) {
-		if (err) {
-			console.log(err);
-			res.status(err.status).end();
-		}
-		else {
-			console.log('Sent:', fileName);
-		}
-	});
+	// var fileName = req.params.name;
+		// res.sendFile(fileName, options, function (err) {
+		// if (err) {
+			// console.log(err);
+			// res.status(err.status).end();
+		// }
+		// else {
+			// console.log('Sent:', fileName);
+		// }
+	// });
 	
-});
+// });
 
 // router.post('/targets/upload', upload.single("file"), function (req, res, next) {
 	// console.log(req.file);
@@ -84,41 +89,41 @@ router.get('/file/:name', cors(), function(req, res, next) {
 // MAKE SURE FILENAME HAS NO SPACES
 
 
-router.post('/uploader/json/:filename', function(req, res, next) {
-	var dir = path.join(__dirname, '../uploads');
-	// var abs = path.join(dir, req.params.filename);
-	var abs = path.join(dir, 'myDevices.json');
-	var reqdata = req.body.json;
+// router.post('/uploader/json/:filename', function(req, res, next) {
+	// var dir = path.join(__dirname, '../uploads');
+	// // var abs = path.join(dir, req.params.filename);
+	// var abs = path.join(dir, 'myDevices.json');
+	// var reqdata = req.body.json;
 	
-	fs.writeFile(abs, reqdata, function(err) {
-      if (err) return next(err);
+	// fs.writeFile(abs, reqdata, function(err) {
+      // if (err) return next(err);
 	  
-      });
+      // });
 	  
-	  var fullUrl = req.protocol + '://' + req.get('host') + '/file/' + req.params.filename;
+	  // var fullUrl = req.protocol + '://' + req.get('host') + '/file/' + req.params.filename;
 	  
-	  var resdata = {jsonUrl: fullUrl};
-	  res.set('Content-Type', 'application/json');
-	  res.end(JSON.stringify(resdata));
+	  // var resdata = {jsonUrl: fullUrl};
+	  // res.set('Content-Type', 'application/json');
+	  // res.end(JSON.stringify(resdata));
 	
-})
+// })
 
-router.post('/uploader/augmentation/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
+// router.post('/uploader/augmentation/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
 	
-	var fullUrl = req.protocol + '://' + req.get('host') + '/file/' + req.params.filename; 
-	var data = {augmentationUrl: fullUrl};
-	res.set('Content-Type', 'application/json');
-	res.end(JSON.stringify(data));
-});
+	// var fullUrl = req.protocol + '://' + req.get('host') + '/file/' + req.params.filename; 
+	// var data = {augmentationUrl: fullUrl};
+	// res.set('Content-Type', 'application/json');
+	// res.end(JSON.stringify(data));
+// });
 
-router.post('/uploader/target/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
-	var imgPath = res.locals.image.abs;
-	var fileName = res.locals.image.name;
-	var targetName = fileName.split('.')[0];
-	var fullUrl = req.protocol + '://' + req.get('host') + '/file/' + fileName; 
+// router.post('/uploader/target/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
+	// var imgPath = res.locals.image.abs;
+	// var fileName = res.locals.image.name;
+	// var targetName = fileName.split('.')[0];
+	// var fullUrl = req.protocol + '://' + req.get('host') + '/file/' + fileName; 
 	
-	console.log(imgPath);
-	console.log(fullUrl)
+	// console.log(imgPath);
+	// console.log(fullUrl)
 	
 	// targetsApi.createTargetCollection("targetCollection")
 		// .then(createdTargetCollection => {
@@ -153,10 +158,10 @@ router.post('/uploader/target/:filename', base64image(path.join(__dirname, '../u
 			// console.error("ERROR OCCURRED:", error.message, error);
 		// });
 		
-	var data = {targetCollection: "targetCollection", targetName: targetName, collectionId: "collectionId", targetUrl: fullUrl};
-	res.set('Content-Type', 'application/json');
-	res.end(JSON.stringify(data));
-});	
+	// var data = {targetCollection: "targetCollection", targetName: targetName, collectionId: "collectionId", targetUrl: fullUrl};
+	// res.set('Content-Type', 'application/json');
+	// res.end(JSON.stringify(data));
+// });	
 
 
 

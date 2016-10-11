@@ -25,3 +25,8 @@
 #postButton {
 	margin: 0px 4%;
 }
+
+.g-signin2 {
+	min-height: 200px;
+	min-width: 300px;
+}

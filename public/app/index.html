@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 		<link rel='stylesheet' href='../stylesheets/angular.cropper.min.css' />
 		<link rel='stylesheet' href='../stylesheets/style.css' />
+		<meta name="google-signin-client_id" content="286208149051-71lk7sdm5plc2oih79p7mq8g80kla8te.apps.googleusercontent.com">
 		<script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
@@ -21,15 +22,18 @@
 		<script src="app/cropper/cropper.directive.js"></script> -->
 		<script src="app/target-upload/target-upload.module.js"></script>
 		<script src="app/target-upload/target-upload.component.js"></script>
+		<script src="app/log-in/log-in.module.js"></script>
+		<script src="app/log-in/log-in.component.js"></script>
 		<script src="app/app.module.js"></script>
+		
 		<!-- <script src="target-upload/target-upload.module.js"></script>
 		<script src="target-upload/target-upload.component.js"></script> -->
 
 	</head>
 
 	<body>
-
-		<target-upload></target-upload>
+		<log-in></log-in>
+		<!-- <target-upload></target-upload> -->
 	
 		<!-- <div id="dropzone" drag-and-drop>
 			<div class="message" ng-show="dragMessageOn"><span> Drop your target image here </span></div>
