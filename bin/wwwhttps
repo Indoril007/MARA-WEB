@@ -13,8 +13,8 @@ var https = require('https');
  * Get SSL key and cert
  */
 
-var privateKey = fs.readFileSync('../../../stack/apache2/conf/server.key', 'utf8')
-var certificate = fs.readFileSync('../../../stack/apache2/conf/server.crt', 'utf8')
+var privateKey = fs.readFileSync('../../stack/apache2/conf/server.key', 'utf8')
+var certificate = fs.readFileSync('../../stack/apache2/conf/server.crt', 'utf8')
 var credentials = { key: pirvateKey, cert: certificate };
 
 /**
