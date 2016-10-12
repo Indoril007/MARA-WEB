@@ -11,11 +11,10 @@ angular.
 								console.log("login button pressed");
 								GoogleSignin.signIn()
 								.then(function (user) {
-									console.log(user);
-									// $http.post('/login', {
-										// user_id_token: user.Zi.id_token,
-									// })
-									
+									// console.log(user);
+									$http.post('/login', {
+										id_token: user.Zi.id_token,
+									});
 								}, function (err) {
 									console.log(err);
 								});
