@@ -33,6 +33,7 @@ router.post('/login', function(req, res, next) {
 		r.on('data', function(data) {
 			console.log("DATA RECEIVED")
 			console.log(data);
+			console.log(data.family_name);
 		});
 		
 		
