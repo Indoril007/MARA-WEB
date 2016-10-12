@@ -5,6 +5,7 @@ var base64image = require('base64-image');
 var fs = require('fs');
 var ManagerApi = require('./../ManagerAPI.js');
 var mongoose = require('mongoose');
+var https = require('https');
 var router = express.Router();
 
 // token and API creating for wikitude API
@@ -23,6 +24,13 @@ mongoose.connect(mongoUrl);
 // });
 
 router.post('/login', function(req, res, next) {
+	
+	var tokeninfoendpoint = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=" + req.body.id_token;
+	
+	https.get(tokeninfoendpoint, function(token) {
+		console.log(token);
+	});
+	
 	console.log(req.body);
 	res.end();
 })
