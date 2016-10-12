@@ -8,6 +8,8 @@ var app = require('../app');
 var debug = require('debug')('mara-proto:server');
 var http = require('http');
 
+console.log(__dirname);
+
 /**
  * Get port from environment and store in Express.
  */
