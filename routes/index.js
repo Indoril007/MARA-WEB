@@ -28,10 +28,15 @@ router.post('/login', function(req, res, next) {
 	var tokeninfoendpoint = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=" + req.body.id_token;
 	
 	https.get(tokeninfoendpoint, function(r) {
+		console.log('STATUS: ' + r.statusCode);
+		res.setEncoding('utf8');
 		r.on('data', function(data) {
 			console.log("DATA RECEIVED")
 			console.log(data.body);
 		});
+		
+		
+		
 	});
 	
 	console.log(req.body);
