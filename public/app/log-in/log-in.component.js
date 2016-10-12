@@ -8,13 +8,14 @@ angular.
 					var self = this;
 		
 						self.login = function () {
-							GoogleSignin.signIn().then(function (user) {
+							GoogleSignin.signIn()
+							.then(function (user) {
 								console.log(user);
 								
 							}, function (err) {
 								console.log(err);
 							});
 						};
-					}];
+					}],
   
 }());
