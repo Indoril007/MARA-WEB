@@ -29,7 +29,7 @@ router.post('/login', function(req, res, next) {
 	
 	https.get(tokeninfoendpoint, function(r) {
 		console.log('STATUS: ' + r.statusCode);
-		res.setEncoding('utf8');
+		r.setEncoding('utf8');
 		r.on('data', function(data) {
 			console.log("DATA RECEIVED")
 			console.log(data.body);
