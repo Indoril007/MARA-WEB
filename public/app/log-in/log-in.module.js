@@ -1,6 +1,6 @@
 (function() {
 
 // Define the `phoneList` module
-angular.module('logIn', []);
+angular.module('logIn', ['google-signin']);
 
 }());
