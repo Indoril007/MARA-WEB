@@ -32,7 +32,7 @@ router.post('/login', function(req, res, next) {
 		r.setEncoding('utf8');
 		r.on('data', function(data) {
 			console.log("DATA RECEIVED")
-			console.log(data.body);
+			console.log(data);
 		});
 		
 		
