@@ -29,7 +29,8 @@ router.post('/login', function(req, res, next) {
 	
 	https.get(tokeninfoendpoint, function(r) {
 		r.on('data', function(data) {
-			console.log(data);
+			console.log("DATA RECEIVED")
+			console.log(data.body);
 		});
 	});
 	
