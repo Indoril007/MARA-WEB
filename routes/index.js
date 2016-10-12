@@ -22,9 +22,10 @@ mongoose.connect(mongoUrl);
   // res.render('index', { title: 'Express' });
 // });
 
-// router.post('/login', function(req, res, next) {
-	
-// })
+router.post('/login', function(req, res, next) {
+	console.log(req.body);
+	res.end();
+})
 
 
 // router.get('/file/:name', cors(), function(req, res, next) {

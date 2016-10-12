@@ -12,8 +12,12 @@ angular.
 								GoogleSignin.signIn()
 								.then(function (user) {
 									// console.log(user);
-									$http.post('/login', {
-										id_token: user.Zi.id_token,
+									
+									var uri = $location.protocol() + "://" + $location.host() + "/login";
+									console.log(uri)
+									$http.post(uri, {
+										// id_token: user.Zi.id_token,
+										test: 'test',
 									});
 								}, function (err) {
 									console.log(err);
