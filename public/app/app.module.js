@@ -1,5 +1,5 @@
 (function(){
 	
-angular.module('mara-app', ['bp.img.cropper', 'dragAndDrop', 'targetUpload', 'logIn']);
+angular.module('mara-app', ['bp.img.cropper', 'dragAndDrop', 'targetUpload', 'logIn', 'google-signin']);
 
 }());
