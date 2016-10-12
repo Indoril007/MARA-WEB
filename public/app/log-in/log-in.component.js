@@ -4,7 +4,7 @@ angular.
 	module('logIn').
 	component('logIn', {
 		templateUrl: 'app/log-in/log-in.template.html',
-		controller: ['$http', 'GoogleSignin', function (GoogleSignin) {
+		controller: ['$http', 'GoogleSignin', function ($http, GoogleSignin) {
 						var self = this;
 							
 							self.login = function () {
