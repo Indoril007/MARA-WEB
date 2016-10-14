@@ -52,7 +52,18 @@ router.post('/login', function(req, res, next) {
 		User.findOne({ 'sub': token.sub }, function (err, user) {
 		  if (err) console.log('ERROR: ' + err);
 		  
-		  console.log('user: ' + user);
+		  if (user === null) {
+		  	user = new User({ 
+		  						name: token.name,
+		  						email: token.email,
+		  						sub: token.sub,
+		  					});
+		  	user.save();
+		  	console.log("New user saved");
+		  } else {
+		  	console.log("User Found");
+		  	console.log(user);
+		  }
 		  
 		})
 	});
