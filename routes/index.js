@@ -30,6 +30,7 @@ var getToken = function(endpoint) {
 			r.setEncoding('utf8');
 			r.on('data', function(data){
 				var token = JSON.parse(data);
+				console.log(token);
 				fulfill(token);
 			});
 			r.on('error', reject);
@@ -51,16 +52,11 @@ router.post('/login', function(req, res, next) {
 		User.findOne({ 'sub': token.sub }, function (err, user) {
 		  if (err) console.log('ERROR: ' + err);
 		  
-		  console.log('Name: ' + user.name);
-		  console.log('Email: ' + user.email);
-		  console.log('Sub: ' + user.sub);
+		  console.log('user: ' + user);
 		  
 		})
 	});
 	
-	
-	
-	console.log(req.body);
 	res.end();
 })
 
