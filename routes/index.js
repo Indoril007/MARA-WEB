@@ -38,6 +38,30 @@ var getToken = function(endpoint) {
 	});	
 };
 
+// Middle ware for routes
+app.use(function(req, res, next) {
+	if (req.session && req.session.user) {
+		User.findOne( { 'email': req.session.user.email} , function(err, user) {
+			if (user) {
+				req.user = user;
+				delete req.user.sub;
+				req.session.user = req.user;
+			}
+			next();
+		});
+	} else {
+		next();
+	}
+});
+
+function requireLogin(req, res, next) {
+	if (!req.user) {
+		res.set('Content-Type', 'application/json');
+		res.end(JSON.stringify({status: "Not Logged In"}));
+	} else {
+		next();
+	};
+}
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -60,7 +84,7 @@ router.post('/login', function(req, res, next) {
 		  					});
 		  	user.save();
 		  	console.log("NEW USER SAVED");
-
+			console.log(user);
 		  	req.session.user = user;
 
 		  } else {
@@ -77,7 +101,12 @@ router.post('/login', function(req, res, next) {
 	});
 	
 	res.end();
-})
+});
+
+router.get('/dashboard', requireLogin, function(req, res)) {
+	res.set('Content-Type', 'application/json');
+	res.end(JSON.stringify({status: "Logged In"}));
+}
 
 
 // router.get('/file/:name', cors(), function(req, res, next) {
