@@ -31,7 +31,7 @@ var sessionToken = process.argv[3];
 
 app.use(sessions({
   cookieName: "marasession",
-  secret: sesionToken,
+  secret: sessionToken,
   duration: 30 * 60 * 1000,
   activeDuration: 5 * 60 * 1000,
 }));
