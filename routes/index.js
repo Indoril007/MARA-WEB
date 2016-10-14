@@ -105,6 +105,11 @@ router.post('/login', function(req, res, next) {
 	
 });
 
+router.get('/logout', function(req, res)) {
+	req.marasession.reset();
+	res.redirect('/');
+}
+
 // router.get('/dashboard', requireLogin, function(req, res) {
 	// res.set('Content-Type', 'application/json');
 	// res.end(JSON.stringify({status: "Logged In"}));
