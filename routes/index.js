@@ -69,14 +69,14 @@ router.post('/login', function(req, res, next) {
 		  	user.save();
 		  	console.log("NEW USER SAVED");
 			console.log(user);
-		  	req.session.user = user;
+		  	req.marasession.user = user;
 
 		  } else {
 
 		  	console.log("USER FOUND");
 		  	console.log(user);
 
-		  	req.session.user = user;
+		  	req.marasession.user = user;
 
 
 		  }
