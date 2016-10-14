@@ -103,10 +103,10 @@ router.post('/login', function(req, res, next) {
 	res.end();
 });
 
-router.get('/dashboard', requireLogin, function(req, res)) {
+router.get('/dashboard', requireLogin, function(req, res) {
 	res.set('Content-Type', 'application/json');
 	res.end(JSON.stringify({status: "Logged In"}));
-}
+});
 
 
 // router.get('/file/:name', cors(), function(req, res, next) {
