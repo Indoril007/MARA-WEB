@@ -34,7 +34,7 @@ var getToken = function(endpoint) {
 			});
 			r.on('error', reject);
 		});
-	}	
+	});	
 };
 
 
