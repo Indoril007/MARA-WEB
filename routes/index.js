@@ -59,10 +59,18 @@ router.post('/login', function(req, res, next) {
 		  						sub: token.sub,
 		  					});
 		  	user.save();
-		  	console.log("New user saved");
+		  	console.log("NEW USER SAVED");
+
+		  	req.session.user = user;
+
 		  } else {
-		  	console.log("User Found");
+
+		  	console.log("USER FOUND");
 		  	console.log(user);
+
+		  	req.session.user = user;
+
+
 		  }
 		  
 		})

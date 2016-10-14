@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var sessions = require('client-sessions');
 
 // var managerAPITest = require('./ManagerAPITest');
 
@@ -23,6 +24,15 @@ app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var sessionToken = process.argv[3];
+
+app.use(sessions({
+  cookieName: "marasession",
+  secret: sesionToken,
+  duration: 30 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000,
+}));
 
 app.use('/', routes);
 app.use('/users', users);
