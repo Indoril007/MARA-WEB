@@ -110,7 +110,9 @@ router.post('/login', function(req, res, next) {
 	// res.end(JSON.stringify({status: "Logged In"}));
 // });
 
-router.get('/app/target-upload/target-upload.template.html', requireLogin);
+router.get('/target-upload', requireLogin, function(req, res) {
+	res.end('<target-upload></target-upload>')
+});
 
 // router.get('/file/:name', cors(), function(req, res, next) {
 	

@@ -9,7 +9,7 @@ angular.module('mara-app')
 			template: '<log-in></log-in>'
 		}).
 		when('/targetupload', {
-			template: '<target-upload></target-upload>'
+			templateUrl: 'target-upload'
 		}).
 		otherwise('/');
 		}
