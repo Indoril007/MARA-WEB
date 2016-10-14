@@ -105,11 +105,12 @@ router.post('/login', function(req, res, next) {
 	
 });
 
-router.get('/dashboard', requireLogin, function(req, res) {
-	res.set('Content-Type', 'application/json');
-	res.end(JSON.stringify({status: "Logged In"}));
-});
+// router.get('/dashboard', requireLogin, function(req, res) {
+	// res.set('Content-Type', 'application/json');
+	// res.end(JSON.stringify({status: "Logged In"}));
+// });
 
+router.get('/app/target-upload/target-upload.template.html', requireLogin);
 
 // router.get('/file/:name', cors(), function(req, res, next) {
 	
