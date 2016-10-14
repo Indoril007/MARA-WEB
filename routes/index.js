@@ -70,7 +70,8 @@ router.post('/login', function(req, res, next) {
 		  	console.log("NEW USER SAVED");
 			console.log(user);
 		  	req.marasession.user = user;
-
+			
+			res.end();
 		  } else {
 
 		  	console.log("USER FOUND");
@@ -78,13 +79,12 @@ router.post('/login', function(req, res, next) {
 
 		  	req.marasession.user = user;
 
-
+			res.end();
 		  }
 		  
 		})
 	});
 	
-	res.end();
 });
 
 router.get('/dashboard', requireLogin, function(req, res) {
