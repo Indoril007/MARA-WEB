@@ -10,6 +10,8 @@
 		<script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.min.js"></script>
+
 		<script src="js/devices.js"></script>
 		<script src="js/konva.js"></script>
 		<script src="js/angular.cropper.min.js"></script>
@@ -29,7 +31,10 @@
 	</head>
 
 	<body>
-		<log-in></log-in>
+	
+		<div ng-view></div>
+	
+		<!-- <log-in></log-in> -->
 		<!-- <target-upload></target-upload> -->
 	
 		<!-- <div id="dropzone" drag-and-drop>
