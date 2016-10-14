@@ -38,22 +38,6 @@ var getToken = function(endpoint) {
 	});	
 };
 
-// Middle ware for routes
-app.use(function(req, res, next) {
-	if (req.session && req.session.user) {
-		User.findOne( { 'email': req.session.user.email} , function(err, user) {
-			if (user) {
-				req.user = user;
-				delete req.user.sub;
-				req.session.user = req.user;
-			}
-			next();
-		});
-	} else {
-		next();
-	}
-});
-
 function requireLogin(req, res, next) {
 	if (!req.user) {
 		res.set('Content-Type', 'application/json');

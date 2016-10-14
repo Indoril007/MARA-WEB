@@ -27,12 +27,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var sessionToken = process.argv[3];
 
+// Middle ware for sessions
+
 app.use(sessions({
   cookieName: "marasession",
   secret: sesionToken,
   duration: 30 * 60 * 1000,
   activeDuration: 5 * 60 * 1000,
 }));
+
+app.use(function(req, res, next) {
+	if (req.session && req.session.user) {
+		User.findOne( { 'email': req.session.user.email} , function(err, user) {
+			if (user) {
+				req.user = user;
+				delete req.user.sub;
+				req.session.user = req.user;
+			}
+			next();
+		});
+	} else {
+		next();
+	}
+});
+
 
 app.use('/', routes);
 app.use('/users', users);
