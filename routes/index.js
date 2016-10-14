@@ -48,7 +48,14 @@ router.post('/login', function(req, res, next) {
 	var tokeninfoendpoint = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=" + req.body.id_token;
 	
 	getToken(tokeninfoendpoint).then(token => {
-		
+		User.findOne({ 'sub': token.sub }, function (err, user) {
+		  if (err) console.log('ERROR: ' + err);
+		  
+		  console.log('Name: ' + user.name);
+		  console.log('Email: ' + user.email);
+		  console.log('Sub: ' + user.sub);
+		  
+		})
 	});
 	
 	
