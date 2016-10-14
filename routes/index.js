@@ -38,6 +38,24 @@ var getToken = function(endpoint) {
 	});	
 };
 
+
+// Middle ware for sessions
+
+app.use(function(req, res, next) {
+	if (req.marasession && req.marasession.user) {
+		User.findOne( { 'email': req.marasession.user.email} , function(err, user) {
+			if (user) {
+				req.user = user;
+				delete req.user.sub;
+				req.marasession.user = req.user;
+			}
+			next();
+		});
+	} else {
+		next();
+	}
+});
+
 function requireLogin(req, res, next) {
 	if (!req.user) {
 		res.set('Content-Type', 'application/json');
