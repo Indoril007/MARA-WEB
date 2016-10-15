@@ -119,34 +119,34 @@ router.get('/target-upload', requireLogin, function(req, res) {
 	res.end('<target-upload></target-upload>')
 });
 
+router.get('/file/:name', cors(), function(req, res, next) {
+	
+	var options = {
+		root: __dirname + '/../uploads/',
+		dotfiles: 'deny',
+		headers: {
+		'x-timestamp': Date.now(),
+		'x-sent': true
+		}
+	};
+
+	var fileName = req.params.name;
+		res.sendFile(fileName, options, function (err) {
+		if (err) {
+			console.log(err);
+			res.status(err.status).end();
+		}
+		else {
+			console.log('Sent:', fileName);
+		}
+	});
+	
+});
+
 // router.get('/file/:name', cors(), function(req, res, next) {
 	
 	// var options = {
 		// root: __dirname + '/../assets/',
-		// dotfiles: 'deny',
-		// headers: {
-		// 'x-timestamp': Date.now(),
-		// 'x-sent': true
-		// }
-	// };
-
-	// var fileName = req.params.name;
-		// res.sendFile(fileName, options, function (err) {
-		// if (err) {
-			// console.log(err);
-			// res.status(err.status).end();
-		// }
-		// else {
-			// console.log('Sent:', fileName);
-		// }
-	// });
-	
-// });
-
-// router.get('/file/:name', cors(), function(req, res, next) {
-	
-	// var options = {
-		// root: __dirname + '/../uploads/',
 		// dotfiles: 'deny',
 		// headers: {
 		// 'x-timestamp': Date.now(),

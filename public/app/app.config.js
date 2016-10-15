@@ -11,6 +11,9 @@ angular.module('mara-app')
 		when('/targetupload', {
 			templateUrl: 'target-upload'
 		}).
+		when('/augmentupload', {
+			template: '<augment-upload></augment-upload>'
+		}).
 		otherwise('/');
 		}
 	]);
