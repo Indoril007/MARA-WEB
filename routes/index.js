@@ -30,7 +30,6 @@ var getToken = function(endpoint) {
 			r.setEncoding('utf8');
 			r.on('data', function(data){
 				var token = JSON.parse(data);
-				console.log(token);
 				fulfill(token);
 			});
 			r.on('error', reject);
@@ -59,7 +58,7 @@ router.use(function(req, res, next) {
 function requireLogin(req, res, next) {
 	if (!req.user) {
 		res.set('Content-Type', 'application/json');
-		res.end(JSON.stringify({status: "Not Logged In"}));
+		res.send({login: "login required"});
 	} else {
 		next();
 	};
@@ -76,30 +75,22 @@ router.post('/login', function(req, res, next) {
 	
 	getToken(tokeninfoendpoint).then(token => {
 		User.findOne({ 'sub': token.sub }, function (err, user) {
-		  if (err) console.log('ERROR: ' + err);
+		 	if (err) console.log('ERROR: ' + err);
 		  
-		  if (user === null) {
-		  	user = new User({ 
-		  						name: token.name,
-		  						email: token.email,
-		  						sub: token.sub,
-		  					});
-		  	user.save();
-		  	console.log("NEW USER SAVED");
-			console.log(user);
-		  	req.marasession.user = user;
-			
-			res.end();
-		  } else {
-
-		  	console.log("USER FOUND");
-		  	console.log(user);
+			if (user === null) {
+				user = new User({ 
+									name: token.name,
+									email: token.email,
+									sub: token.sub,
+								});
+				user.save();
+				console.log("NEW USER SAVED: " + user.name);
+			} else {
+				console.log("USER FOUND: " + user.name);
+			}
 
 		  	req.marasession.user = user;
-
 			res.end();
-		  }
-		  
 		})
 	});
 	
@@ -110,38 +101,62 @@ router.get('/logout', function(req, res) {
 	res.redirect('/');
 });
 
+// router.get('/dashboard', function(req, res) {
+// 	req.marasession.reset();
+// 	res.redirect('/');
+// });
+
+
+
 // router.get('/dashboard', requireLogin, function(req, res) {
 	// res.set('Content-Type', 'application/json');
 	// res.end(JSON.stringify({status: "Logged In"}));
+// });
+
+// router.get('/login', requireLogin, function(req, res) {
+// 	res.end('<log-in></log-in>')
 // });
 
 router.get('/target-upload', requireLogin, function(req, res) {
 	res.end('<target-upload></target-upload>')
 });
 
-router.get('/file/:name', cors(), function(req, res, next) {
-	
-	var options = {
-		root: __dirname + '/../uploads/',
-		dotfiles: 'deny',
-		headers: {
-		'x-timestamp': Date.now(),
-		'x-sent': true
-		}
-	};
-
-	var fileName = req.params.name;
-		res.sendFile(fileName, options, function (err) {
-		if (err) {
-			console.log(err);
-			res.status(err.status).end();
-		}
-		else {
-			console.log('Sent:', fileName);
-		}
-	});
-	
+router.get('/augment-upload', requireLogin, function(req, res) {
+	res.end('<augment-upload></augment-upload>')
 });
+
+router.get('/dash-board', requireLogin, function(req, res) {
+	res.end('<dashboard></dashboard>')
+});
+
+router.get('/targetCollections', requireLogin, function(req, res) {
+	res.set('Content-Type', 'application/json');
+	res.end(JSON.stringify(req.marasession.user.targetCollections));
+})
+
+// router.get('/file/:name', cors(), function(req, res, next) {
+	
+// 	var options = {
+// 		root: __dirname + '/../uploads/',
+// 		dotfiles: 'deny',
+// 		headers: {
+// 		'x-timestamp': Date.now(),
+// 		'x-sent': true
+// 		}
+// 	};
+
+// 	var fileName = req.params.name;
+// 		res.sendFile(fileName, options, function (err) {
+// 		if (err) {
+// 			console.log(err);
+// 			res.status(err.status).end();
+// 		}
+// 		else {
+// 			console.log('Sent:', fileName);
+// 		}
+// 	});
+	
+// });
 
 // router.get('/file/:name', cors(), function(req, res, next) {
 	
@@ -212,6 +227,17 @@ router.get('/file/:name', cors(), function(req, res, next) {
 	// res.set('Content-Type', 'application/json');
 	// res.end(JSON.stringify(data));
 // });
+
+router.post('/target', requireLogin, function(req, res, next) {
+		req.marasession.user.targetCollections.push({name: req.body.name});
+		var targetCollection = req.marasession.user.targetCollections[0];
+		req.marasession.user.save();
+		console.log("TC mongo ID: " + targetCollection._id);
+		req.body.filename = targetCollection._id + "." + req.body.extension;
+		next();
+	}, base64image(path.join(__dirname, '../uploads')), function(req, res) {
+		res.end();
+	});
 
 // router.post('/uploader/target/:filename', base64image(path.join(__dirname, '../uploads')), function (req,res,next) {
 	// var imgPath = res.locals.image.abs;

@@ -8,11 +8,14 @@ angular.module('mara-app')
 		when('/', {
 			template: '<log-in></log-in>'
 		}).
+		when('/dashboard', {
+			templateUrl: 'dash-board'
+		}).
 		when('/targetupload', {
 			templateUrl: 'target-upload'
 		}).
 		when('/augmentupload', {
-			template: '<augment-upload></augment-upload>'
+			templateUrl: 'augment-upload'
 		}).
 		otherwise('/');
 		}

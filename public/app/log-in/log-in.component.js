@@ -13,10 +13,13 @@ angular.
 								.then(function (user) {
 									// console.log(user);
 									
-									var uri = $location.protocol() + "://" + $location.host() + ":" + $location.port() + "/login";
+									var uri = $location.protocol() + "://" + $location.host() + ":" + $location.port();
 									console.log(uri)
-									$http.post(uri, {
+									$http.post(uri + "/login", {
 										id_token: user.Zi.id_token,
+									}).then( function success(response) {
+										console.log("success");
+										$location.path('/dashboard');	
 									});
 								}, function (err) {
 									console.log(err);
