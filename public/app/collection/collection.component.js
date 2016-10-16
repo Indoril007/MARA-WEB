@@ -17,6 +17,11 @@ angular.
 			console.log('/collections/' + self.id + '/targetupload')
 			$location.path('/targetupload/' + self.id)
 		};
+
+		self.addAugmentations = function(targetId) {
+			
+		};
+		
 	}],
   });
   
