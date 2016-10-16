@@ -14,13 +14,14 @@ var buttonSchema = new Schema({
 
 var targetSchema = new Schema({
 	name: String,
-	targetCollectionID: String,
+	imgUrl: String,
 	buttons: [buttonSchema],
 	date: {type: Date, default: Date.now()},
 });
 
 var targetCollectionSchema = new Schema({
 	name: String,
+	wikitudeCollectionID: String,
 	targets: [targetSchema],
 	date: {type: Date, default: Date.now()},
 });
@@ -34,7 +35,11 @@ var userSchema = new Schema({
 });
 
 var User = mongoose.model('User', userSchema);
+var TargetCollection = mongoose.model('TargetCollection', targetCollectionSchema);
+var Target = mongoose.model('Target', targetSchema);
 
 module.exports = { 
 					"User": User,
+					"TargetCollection": TargetCollection,
+					"Target": Target,
 				};

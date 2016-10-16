@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
 		<link rel='stylesheet' href='../stylesheets/angular.cropper.min.css' />
 		<link rel='stylesheet' href='../stylesheets/style.css' />
+		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
 		<meta name="google-signin-client_id" content="286208149051-71lk7sdm5plc2oih79p7mq8g80kla8te.apps.googleusercontent.com">
 		<script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -36,6 +37,8 @@
 		<script src="app/target-upload/target-upload.component.js"></script>
 		<script src="app/augment-upload/augment-upload.module.js"></script>
 		<script src="app/augment-upload/augment-upload.component.js"></script>
+		<script src="app/collection/collection.module.js"></script>
+		<script src="app/collection/collection.component.js"></script>
 		<script src="app/log-in/log-in.module.js"></script>
 		<script src="app/log-in/log-in.config.js"></script>
 		<script src="app/log-in/log-in.component.js"></script>
@@ -46,7 +49,7 @@
 
 	<body>
 	
-		<div ng-view></div>
+		<div id="ng-view" ng-view></div>
 	
 		<!-- <log-in></log-in> -->
 		<!-- <target-upload></target-upload> -->

@@ -1,6 +1,6 @@
 (function() {
 
 // Define the `phoneList` module
-angular.module('dashboard', []);
+angular.module('collection', ['ngRoute']);
 
 }());

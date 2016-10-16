@@ -21,8 +21,6 @@ mongoose.connect(mongoUrl);
 
 // Initializing mongoose models;
 var User = models.User;
-var TargetCollection = models.TargetCollection;
-var Target = models.Target;
 
 // initialize helper functions & promises
 var getToken = function(endpoint) {
@@ -121,14 +119,12 @@ router.post('/targetCollections', requireLogin, function(req, res) {
 	var _id = targetCollections[targetCollections.length-1]._id;
 
 	req.marasession.user.save()
-		// Responding with the updated user targetCollections
 		.then(() => {
 			console.log("NEW COLLECTION ADD TO USER ACCOUNT: " + req.marasession.user.name);
 			res.set('Content-Type', 'application/json');
 			res.end(JSON.stringify(req.marasession.user.targetCollections));
-		})
-		// Creating Target Collection in Wikitude and updating the document in mogno with the wikitude ID
-		.then(() => {
+		}).then(() => {
+			// Creating Target Collection in Wikitude
 			console.log("Creating Wikitude Target Collection");
 			return targetsApi.createTargetCollection(req.body.name);
 		}).then(createdTargetCollection => {
@@ -137,23 +133,24 @@ router.post('/targetCollections', requireLogin, function(req, res) {
 				{"_id": req.marasession.user._id, "targetCollections._id": _id}, 
 				{
 					"$set": {
-						"targetCollections.$.wikitudeCollectionID": createdTargetCollection.id
+						targetCollections.$.wikitudeCollectionID: createdTargetCollection.id
 					}
 				}, 
 				function(err, raw) {
-					if (err) console.log(err);
-				});
+					
 		}, err => {
 			console.log(err);
 			User.findOneAndUpdate(
 				{"_id": req.marasession.user._id, "targetCollections._id": _id}, 
 				{
 					"$set": {
-						"targetCollections.$.wikitudeCollectionID": "DUMMYWIKITUDEID"
+						targetCollections.$.wikitudeCollectionID: "DUMMYWIKITUDEID"
 					}
 				}, 
 				function(err, raw) {
 					if (err) console.log(err);
+					console.log(raw);
+					console.log("HERE");
 				});
 		});
 });
@@ -167,47 +164,12 @@ router.delete('/targetCollections/:id', requireLogin, function(req, res) {
 	});
 })
 
-router.post('/targetCollections/targetupload/:id', requireLogin, function(req, res, next) {
-	var collection = req.marasession.user.targetCollections.id(req.params.id);
+// router.post('/targetCollections/targetupload/:id', requireLogin, function(req, res) {
+// 	var collection = req.marasession.user.targetCollections.id(req.params.id);
+// 	collection.buttons.push({
 
-	var newTarget = new Target();
-	newTarget.name = req.body.name;
-	newTarget.imgUrl = '/file/' + newTarget._id + '.' + req.body.extension; 
-
-	collection.targets.push(newTarget);
-
-	req.marasession.user.save();
-
-	req.body.filename = newTarget._id + '.' + req.body.extension; 
-
-	next();
-}, base64image(path.join(__dirname, '../uploads')), function(req, res) {
-	res.end();
-})
-
-router.get('/file/:name', cors(), function(req, res, next) {
-	
-	var options = {
-		root: __dirname + '/../uploads/',
-		dotfiles: 'deny',
-		headers: {
-		'x-timestamp': Date.now(),
-		'x-sent': true
-		}
-	};
-
-	var fileName = req.params.name;
-		res.sendFile(fileName, options, function (err) {
-		if (err) {
-			console.log(err);
-			res.status(err.status).end();
-		}
-		else {
-			console.log('Sent:', fileName);
-		}
-	});
-	
-});
+// 	})
+// })
 
 // router.post('/target', requireLogin, function(req, res, next) {
 // 		req.marasession.user.targetCollections.push({name: req.body.name});

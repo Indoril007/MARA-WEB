@@ -4,12 +4,11 @@ angular.
   module('targetUpload').
   component('targetUpload', {
     templateUrl: 'app/target-upload/target-upload.template.html',
-    controller: ['$scope', '$http', function($scope, $http) {
+    controller: ['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location) {
 		
 		// allocating this to self for use in callback functions
 		var self = this;
-		self.targetName = "";
-		self.targetNamePlaceholder = "Please enter target name"
+		self.newTargetName = "";
 		
 		$http.get('/targetCollections').
 			then(function success(response) {
@@ -35,13 +34,12 @@ angular.
 					var re = /(.+)\.(.+?)$/;
 					var matches = re.exec(self.filename);
 					self.extension = matches[2]
-
 				});
 		
 		// Triggered by the upload target button
 		self.uploadTarget = function() {
 			
-			if(self.targetName === "") {
+			if(self.newTargetName === "") {
 				return;
 			}
 
@@ -51,13 +49,14 @@ angular.
 			}
 			
 			
-			$http.post('/target', {
+			$http.post('/targetCollections/targetupload/' + $routeParams.id, {
 				base64: self.imgBase64,
-				name: self.targetName,
+				name: self.newTargetName,
 				filename: self.filename,
 				extension: self.extension,
 			}).then(function success(response) {
 				console.log("success")	
+				$location.path('collections/' + $routeParams.id)
 			}, function failuer(error) {
 				console.log(error);
 			});

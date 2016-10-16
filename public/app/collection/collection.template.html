@@ -23,19 +23,23 @@
 </nav>
 
 
-<div id="target-upload">
+<div id="collection">
 
-	<div class="heading"><h2>Target Upload</h2></div>
-	<div id="dropzone" drag-and-drop>
-		<div class="message" ng-show="dragMessageOn"><span> Drop your target image here </span></div>
-		<img id="cropped-image" ng-src="{{ $ctrl.imgUrl }}" croppable crop-name="croppedImage"></img>
-	</div>
+<div class="heading"><h2>Collection: {{ $ctrl.targetCollection.name }}</h2></div>
 
-	<div id="target-name-input" class="input-group input-group-lg">
-	  <input type="text" placeholder="Target Name" ng-model="$ctrl.newTargetName" class="form-control" aria-label="...">
-	  <div class="input-group-btn">
-	    <button class="btn btn-primary" type="button" ng-click="$ctrl.uploadTarget()"> Add New Target</button>
-	  </div>
-	</div>
 
+<div id="targets">
+<div class="row">
+  <div ng-click="$ctrl.addNewTarget()" class="col-xs-12 col-md-3">
+    <a class="thumbnail">
+      <img src="/assets/add-new.png" alt="...">
+    </a>
+  </div>
+  <div ng-click="$ctrl.addAugmentations(targets._id)" ng-repeat="target in $ctrl.targetCollection.targets" class="col-xs-12 col-md-3">
+    <a href="#" class="thumbnail">
+      <img ng-src="{{target.imgUrl}}" alt="...">
+    </a>
+  </div>
+</div>
+<div>
 </div>

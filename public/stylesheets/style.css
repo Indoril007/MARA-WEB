@@ -1,21 +1,184 @@
-#dropzone {
-	min-height: 200px;
-	max-width: 60%;
+body {
+	background: #f5f5f5;
+	font-family: "Open Sans",Arial,sans-serif;
 }
 
-#dropzone .message {
-	height: 100%;
-	font-size: 25px;
-	opacity: 0.5;
-	text-align: center;
-	margin: 2em 0; 
-}
-
-#postButton {
-	margin: 0px 4%;
+#ng-view {
+    background: #f5f5f5;
 }
 
 .g-signin2 {
 	min-height: 200px;
 	min-width: 300px;
+}
+
+.navbar-brand {
+	padding: 12px 10px 2px;
+	padding-right: 13px;
+}
+
+#brand-text {
+    margin-left: 0;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 18px;
+    color: rgb(238,238,238);
+}
+
+.navbar {
+	padding: 0 55px;
+}
+
+/*------------------DASHBOARD---------------*/
+
+#dashboard {
+	margin: 4% 8%;
+}
+
+#target-collections {
+	margin: 30px 0;
+}
+
+ul {
+	list-style: none;
+	padding: 0 0;
+}
+
+.collections-list>li {
+	display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    display: -ms-flex-box;
+    height: 52px;
+    font-size: 14px;
+    border-bottom: 1px solid #e6e6e6;
+    position: relative;
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+.collections-list>li .collection-name {
+	-webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    display: -ms-flexbox;
+    min-width: 0;
+    line-height: 51px;
+}
+
+.collections-list>li .collection-target-count {
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    display: -ms-flexbox;
+    margin-left: auto;
+    min-width: 0;
+    line-height: 51px;
+}
+
+.collections-list>li .collection-date {
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    display: -ms-flexbox;
+    min-width: 0;
+    margin-left: auto;
+    line-height: 51px;
+}
+
+.collections-list>li .collection-delete {
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    display: -ms-flexbox;
+    min-width: 0;
+    padding-left: 14px;
+    padding-right: 10px;
+    line-height: 51px;
+    font-size: 18px;
+    color: #dddddd;
+}
+
+.collections-list>li .collection-delete:hover {
+    color: #e20000;
+}
+
+.collections-list>li .collection-name>span {
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    margin-right: 20px;
+    line-height: normal;
+    padding: 16px 0
+}
+
+.collections-list>li:hover {
+	background-color: #eee;
+}
+
+/*-----------------------collection--------------------*/
+
+#collection {
+    margin: 4% 8%;
+}
+
+#collection .heading {
+    border-bottom: 2px solid #e6e6e6;
+}
+
+#targets {
+    margin: 2% 0;
+}
+
+#targets img {
+    height: 220px;
+}
+
+/*-----------------------target-upload--------------------*/
+#target-upload {
+    margin: 4% 8%;
+}
+
+#target-upload .heading {
+    border-bottom: 2px solid #e6e6e6;
+}
+
+#dropzone {
+    margin: 2% 20%;
+    min-height: 200px;
+    width: 60%;
+    background: white;
+}
+
+#dropzone .message {
+    height: 100%;
+    font-size: 25px;
+    opacity: 0.5;
+    text-align: center;
+    margin: 4em 0; 
+}
+
+#target-name-input {
+    margin: 0 20%;
 }

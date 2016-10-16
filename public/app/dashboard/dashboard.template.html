@@ -1,8 +1,45 @@
-<ul>
-	<li ng-repeat="targetCollection in $ctrl.targetCollections">
-		{{ targetCollection.name }}
-	</li>
-	<li>
-		New Target Collection
-	</li>
-</ul>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img alt="Mara Logo" src="/assets/icon-small-bright.png" /> </a> 
+    </div>
+
+    
+
+     <div class="collapse navbar-collapse" >
+      <p id="brand-text" class="navbar-text">MARA</p>	
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/logout">Log Out</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<div id="dashboard">
+	<div class="input-group input-group-lg">
+	  <input type="text" placeholder="Collection Name" ng-model="$ctrl.newCollectionName" class="form-control" aria-label="...">
+	  <div class="input-group-btn">
+	    <button class="btn btn-primary" type="button" ng-click="$ctrl.addCollection()"> Add New Target Collection </button>
+	  </div>
+	</div>
+
+
+	<div id="target-collections">
+		<ul class="collections-list">
+			<li ng-repeat="targetCollection in $ctrl.targetCollections | orderBy: 'date':true" ng-click="$ctrl.navToCollection(targetCollection._id)">
+				<div class="collection-name"><span>{{ targetCollection.name }}</span></div>
+				<div class="collection-target-count"><span> Targets: {{ targetCollection.targets.length }}</span></div>
+				<div class="collection-date"><span> Created: {{ targetCollection.date | date:'MM/dd/yyyy @ h:mma' }}</span></div>
+				<div class="collection-delete" ng-click="$ctrl.deleteCollection(targetCollection._id); $event.stopPropagation();"><span class="glyphicon glyphicon-remove"> </span></div>
+			</li>
+		</ul>
+	</div>
+</div>
