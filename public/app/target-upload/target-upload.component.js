@@ -49,7 +49,7 @@ angular.
 			}
 			
 			
-			$http.post('/targetCollections/targetupload/' + $routeParams.id, {
+			$http.post('/targetCollections/' + $routeParams.id + '/targetupload/', {
 				base64: self.imgBase64,
 				name: self.newTargetName,
 				filename: self.filename,

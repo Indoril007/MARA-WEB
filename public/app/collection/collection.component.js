@@ -15,11 +15,11 @@ angular.
 
 		self.addNewTarget = function() {
 			console.log('/collections/' + self.id + '/targetupload')
-			$location.path('/targetupload/' + self.id)
+			$location.path('/collections/' + self.id + '/targetupload')
 		};
 
 		self.addAugmentations = function(targetId) {
-			
+			$location.path('/collections/' + self.id + '/target/' + targetId + '/augmentupload' )
 		};
 		
 	}],

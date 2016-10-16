@@ -167,7 +167,7 @@ router.delete('/targetCollections/:id', requireLogin, function(req, res) {
 	});
 })
 
-router.post('/targetCollections/targetupload/:id', requireLogin, function(req, res, next) {
+router.post('/targetCollections/:id/targetupload', requireLogin, function(req, res, next) {
 	var collection = req.marasession.user.targetCollections.id(req.params.id);
 
 	var newTarget = new Target();
@@ -184,6 +184,13 @@ router.post('/targetCollections/targetupload/:id', requireLogin, function(req, r
 }, base64image(path.join(__dirname, '../uploads')), function(req, res) {
 	res.end();
 })
+
+router.get('/targetCollections/:collectionid/targets/:targetid', requireLogin, function(req, res) {
+	var collection = req.marasession.user.targetCollections.id(req.params.collectionid);
+	var target = collection.targets.id(req.params.targetid);
+	res.set('Content-Type', 'application/json');
+	res.end(JSON.stringify(target));
+});
 
 router.get('/file/:name', cors(), function(req, res, next) {
 	

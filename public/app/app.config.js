@@ -32,11 +32,11 @@ angular.module('mara-app')
 			template: '<collection></collection>',
 			resolve: {auth: authenticate},
 		}).
-		when('/targetupload/:id', {
+		when('/collections/:id/targetupload', {
 			template: '<target-upload></target-upload>',
 			resolve: {auth: authenticate},
 		}).
-		when('/augmentupload', {
+		when('/collections/:collectionid/target/:targetid/augmentupload', {
 			template: '<augment-upload></augment-upload>',
 			resolve: {auth: authenticate},
 		}).

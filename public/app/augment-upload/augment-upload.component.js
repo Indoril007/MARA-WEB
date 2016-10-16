@@ -4,15 +4,27 @@ angular.
   module('augmentUpload').
   component('augmentUpload', {
     templateUrl: 'app/augment-upload/augment-upload.template.html',
-    controller: ['$scope', '$location', '$window', '$http', function($scope, $location, $window, $http) {
+    controller: ['$scope', '$location', '$window', '$http', '$routeParams', function($scope, $location, $window, $http, $routeParams) {
 		var self = this;
 
-		var backgroundUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port() + "/file/AssignmentPic.jpg"; 
-		var width = $window.innerWidth *0.58;
+		self.collectionId = $routeParams.collectionid;
+		self.targetId = $routeParams.targetid;
+		self.target = null;
 		self.background = null;
 		self.augmentations = [];
 		self.augm_count = 0;
-		konvaHelpers.initKonvaBackground(backgroundUrl, width, 'dropzone')
+
+		var width = document.getElementById('dropzone').clientWidth;
+
+		$http.get('targetCollections/' + self.collectionId + '/targets/' + self.targetId)
+			.then(response => {
+				self.target = response.data;
+			})
+			.then(() => {
+				var backgroundUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port() + self.target.imgUrl; 	
+				return konvaHelpers.initKonvaBackground(backgroundUrl, width, 'dropzone');
+
+			})
 			.then(background => {
 				self.background = background;
 			});
