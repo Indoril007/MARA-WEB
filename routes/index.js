@@ -23,6 +23,7 @@ mongoose.connect(mongoUrl);
 var User = models.User;
 var TargetCollection = models.TargetCollection;
 var Target = models.Target;
+var Button = models.Button;
 
 // initialize helper functions & promises
 var getToken = function(endpoint) {
@@ -171,14 +172,28 @@ router.post('/targetCollections/:id/targetupload', requireLogin, function(req, r
 	var collection = req.marasession.user.targetCollections.id(req.params.id);
 
 	var newTarget = new Target();
-	newTarget.name = req.body.name;
+
 	newTarget.imgUrl = '/file/' + newTarget._id + '.' + req.body.extension; 
+	newTarget.name = req.body.name;
 
 	collection.targets.push(newTarget);
-
 	req.marasession.user.save();
 
 	req.body.filename = newTarget._id + '.' + req.body.extension; 
+
+	// Adding the target to collection in wikitude
+	var fullUrl = req.protocol + '://' + req.get('host') + newTarget.imgUrl;
+	targetsApi.addTarget(collection.wikitudeCollectionID, {name: newTarget.name, imageUrl: fullUrl })
+		.then(target => {
+			console.log(`created target ${target.generationId}`);
+		}).then(() => {
+			console.log("Publishing target collection")
+			return targetsApi.generateTargetCollection(collection.wikitudeCollectionID);
+		}).then(archive => {
+			console.log(`generated cloud archive: ${archive.id}`);
+		}, rejected => {
+			console.log(rejected);
+		});
 
 	next();
 }, base64image(path.join(__dirname, '../uploads')), function(req, res) {
@@ -190,6 +205,31 @@ router.get('/targetCollections/:collectionid/targets/:targetid', requireLogin, f
 	var target = collection.targets.id(req.params.targetid);
 	res.set('Content-Type', 'application/json');
 	res.end(JSON.stringify(target));
+});
+
+router.post('/targetCollections/:collectionid/targets/:targetid/augmentupload', requireLogin, function(req, res, next) {
+	var collection = req.marasession.user.targetCollections.id(req.params.collectionid);
+	var target = collection.targets.id(req.params.targetid);
+	var button = new Button({
+		name: req.body.augmentation.name,
+		scale: req.body.augmentation.scale,
+		offsetX: req.body.augmentation.X,
+		offsetY: req.body.augmentation.Y,
+		description: req.body.augmentation.description,
+	});
+	button.imgPath = '/file/' + button._id + '.' + req.body.augmentation.extension;
+
+	target.buttons.push(button);
+
+	req.marasession.user.save();
+
+	req.body.augmentationId = button._id
+	req.body.filename = button._id + '.' + req.body.augmentation.extension;
+	req.body.base64 = req.body.augmentation.src;
+	next()
+}, base64image(path.join(__dirname, '../uploads')), function(req, res) {
+	res.set('Content-Type', 'application/json');
+	res.end(JSON.stringify({id: req.body.augmentationId, filename: req.body.filename}));
 });
 
 router.get('/file/:name', cors(), function(req, res, next) {
@@ -214,6 +254,29 @@ router.get('/file/:name', cors(), function(req, res, next) {
 		}
 	});
 	
+});
+
+// This route is for delivering files used for the demo augmentations and tutorials
+router.get('/demo/:name', cors(), function(req, res, next) {
+	var options = {
+		root: __dirname + '/../demo/',
+		dotfiles: 'deny',
+		headers: {
+		'x-timestamp': Date.now(),
+		'x-sent': true
+		}
+	};
+
+	var fileName = req.params.name;
+		res.sendFile(fileName, options, function (err) {
+		if (err) {
+			console.log(err);
+			res.status(err.status).end();
+		}
+		else {
+			console.log('Sent:', fileName);
+		}
+	});
 });
 
 // router.post('/target', requireLogin, function(req, res, next) {

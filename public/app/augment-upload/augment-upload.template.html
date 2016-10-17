@@ -1,39 +1,21 @@
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#/dashboard"><img alt="Mara Logo" src="/assets/icon-small-bright.png" /> </a> 
-    </div>
-
-    
-
-     <div class="collapse navbar-collapse" >	
-      <a href="#/dashboard"><p id="brand-text" class="navbar-text">MARA</p></a>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="/logout">Log Out</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-
 <div id="augment-upload">
 
 <div class="heading"><h2>Augmentation Upload</h2></div>
-	<div id="dropzone" drag-and-drop>
-	</div>
 
-	<div id="target-name-input" class="input-group input-group-lg">
-	  <input type="text" placeholder="Button Name" ng-model="$ctrl.newTargetName" class="form-control" aria-label="...">
-	  <div class="input-group-btn">
-	    <button class="btn btn-primary" type="button" ng-click="$ctrl.uploadTarget()"> Add New Target</button>
-	  </div>
-	</div>
+<div id="augmentation-upload-area" class="row">
+
+  <div id="dropzone" class="col-md-7" drag-and-drop></div>
+
+  <div ng-show="$ctrl.showSubmitButton" id="submit-augmentations-button" class="col-md-5"><button ng-click="$ctrl.submitAugmentations()" class="btn btn-primary" type="submit">Submit Augmentations</button></div>
+  <div id="augment-input-group" ng-repeat="augmentation in $ctrl.augmentations">
+    <div id="augment-name-input" class="input-group input-group-sm col-md-5">
+      <input type="text" placeholder="{{ augmentation.id }}: Augmentation Name" ng-model="augmentation.name" class="form-control input-sm" aria-label="...">
+    </div>
+    <div id="augment-name-input" class="input-group input-group-sm col-md-5">
+      <input type="text" placeholder="{{ augmentation.id }}: Augmentation Description" ng-model="augmentation.description" class="form-control input-sm" aria-label="...">
+    </div>
+  </div>
+
+</div>
 
 </div>

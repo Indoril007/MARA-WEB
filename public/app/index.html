@@ -29,6 +29,9 @@
 		<script src="js/ng-google-signin.js"></script>
 		<script src="app/common/drag-and-drop.module.js"></script>
 		<script src="app/common/drag-and-drop.directive.js"></script>
+		<script src="app/common/nav-bar.module.js"></script>
+		<script src="app/common/nav-bar.config.js"></script>
+		<script src="app/common/nav-bar.component.js"></script>
 		<!-- <script src="app/cropper/cropper.module.js"></script>
 		<script src="app/cropper/cropper.directive.js"></script> -->
 		<script src="app/dashboard/dashboard.module.js"></script>
@@ -48,7 +51,9 @@
 	</head>
 
 	<body>
-	
+		
+		<nav-bar></nav-bar>
+
 		<div id="ng-view" ng-view></div>
 	
 		<!-- <log-in></log-in> -->

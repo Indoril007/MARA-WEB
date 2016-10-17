@@ -37,9 +37,11 @@ var userSchema = new Schema({
 var User = mongoose.model('User', userSchema);
 var TargetCollection = mongoose.model('TargetCollection', targetCollectionSchema);
 var Target = mongoose.model('Target', targetSchema);
+var Button = mongoose.model('Button', buttonSchema);
 
 module.exports = { 
 					"User": User,
 					"TargetCollection": TargetCollection,
 					"Target": Target,
+					"Button": Button,
 				};

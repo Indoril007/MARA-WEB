@@ -12,8 +12,9 @@ window.konvaHelpers = {
 			this.ratio = null;
 			this.img = null;
 
-			this.url = null;
+			this.name = null;
 			this.filename = null;
+			this.extension = null;
 			this.description = null;
 			this.X = null;
 			this.Y = null;
@@ -24,7 +25,12 @@ window.konvaHelpers = {
 
 		initSrc(file) {
 			var self = this;
+			self.filename = file.name;
 
+			var re = /(.+)\.(.+?)$/;
+			var matches = re.exec(self.filename);
+			self.extension = matches[2];
+	
 			return new Promise((resolve, reject) => {
 				var reader = new FileReader();
 				reader.onload = function(event){

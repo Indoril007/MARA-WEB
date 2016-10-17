@@ -19,10 +19,11 @@ angular.module('mara-app')
 		
 		$routeProvider.
 		when('/', {
-			template: '<log-in></log-in>',
+			redirectTo: '/dashboard',
+			resolve: {auth: authenticate},
 		}).
-		when('/notauthorized', {
-			template: 'NOT AUTHORIZED', 
+		when('/login', {
+			template: '', 
 		}).
 		when('/dashboard', {
 			template: '<dashboard></dashboard>',
@@ -47,7 +48,7 @@ angular.module('mara-app')
 		$rootScope.$on("$routeChangeError", function(evt, current, previous, rejection) {
 			if (rejection === "not_logged_in") {
 				console.log("NOT LOGGED IN");
-				$location.path('/notauthorized');
+				$location.path('/login');
 			}
 		});
 	}]);

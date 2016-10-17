@@ -33,7 +33,7 @@ angular.
 
 					var re = /(.+)\.(.+?)$/;
 					var matches = re.exec(self.filename);
-					self.extension = matches[2]
+					self.extension = matches[2];
 				});
 		
 		// Triggered by the upload target button

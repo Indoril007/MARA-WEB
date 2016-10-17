@@ -13,8 +13,9 @@ angular.
 		self.background = null;
 		self.augmentations = [];
 		self.augm_count = 0;
+		self.showSubmitButton = false;
 
-		var width = document.getElementById('dropzone').clientWidth;
+		var width = document.getElementById('dropzone').clientWidth - 4;
 
 		$http.get('targetCollections/' + self.collectionId + '/targets/' + self.targetId)
 			.then(response => {
@@ -30,17 +31,37 @@ angular.
 			});
 
 		$scope.$on('fileUploaded', function(event, file) {
-					var augm = new konvaHelpers.Augmentation(self.augm_count);
-					augm.initSrc(file)
-						.then(() => {
-							return augm.initImg();
-						})
-						.then(() => {
-							konvaHelpers.addAugmToKonva(self.background, augm);
-							self.augmentations.push(augm);
-							self.augm_count++;
-						});
+			var augm = new konvaHelpers.Augmentation(self.augm_count);
+			augm.initSrc(file)
+				.then(() => {
+					return augm.initImg();
+				})
+				.then(() => {
+					konvaHelpers.addAugmToKonva(self.background, augm);
+					self.augmentations.push(augm);
+					self.augm_count++;
+					self.showSubmitButton = true;
+					$scope.$digest();
 				});
+		});
+
+		self.submitAugmentations = function(){
+
+			for(let i = 0; i < self.augmentations.length; i++) {
+				// Deleting img attached to augmentations object for transfer more efficient transfer to server.
+
+				self.augmentations[i].img = null;
+
+				$http.post('/targetCollections/' + self.collectionId + '/targets/' + self.targetId + '/augmentupload', {
+					augmentation: self.augmentations[i]
+				}).then(response => {
+					console.log(response.data);
+				});
+
+			}
+
+		};
+
 	}],
   });
   
