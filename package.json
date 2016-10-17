@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/wwwhttps"
+    "start": "node ./bin/wwwhttpshttp"
   },
   "dependencies": {
     "base64-image": "git+https://github.com/Indoril007/base64-image.git",
