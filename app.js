@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var sessionToken = process.argv[3];
+var sessionToken = process.argv[4];
 
 app.use(sessions({
   cookieName: "marasession",

@@ -10,7 +10,7 @@ var https = require('https');
 var router = express.Router();
 
 // token and API creating for wikitude API
-var token = 'eda9b06ac4a22d924f421d3e3e35dbac';
+var token = process.argv[3];;
 var targetsApi = new ManagerApi(token, 2);
 
 // URL configuration for connecting mongoose to mongo database
@@ -179,11 +179,16 @@ router.post('/targetCollections/:id/targetupload', requireLogin, function(req, r
 	collection.targets.push(newTarget);
 	req.marasession.user.save();
 
+	var fullUrl = req.protocol + '://' + req.get('host') + newTarget.imgUrl;
+	req.body.target = {name: newTarget.name, imageUrl: fullUrl };
 	req.body.filename = newTarget._id + '.' + req.body.extension; 
 
+	next();
+}, base64image(path.join(__dirname, '../uploads')), function(req, res) {
 	// Adding the target to collection in wikitude
-	var fullUrl = req.protocol + '://' + req.get('host') + newTarget.imgUrl;
-	targetsApi.addTarget(collection.wikitudeCollectionID, {name: newTarget.name, imageUrl: fullUrl })
+
+	var collection = req.marasession.user.targetCollections.id(req.params.id);
+	targetsApi.addTarget(collection.wikitudeCollectionID, req.body.target)
 		.then(target => {
 			console.log(`created target ${target.generationId}`);
 		}).then(() => {
@@ -195,8 +200,6 @@ router.post('/targetCollections/:id/targetupload', requireLogin, function(req, r
 			console.log(rejected);
 		});
 
-	next();
-}, base64image(path.join(__dirname, '../uploads')), function(req, res) {
 	res.end();
 })
 

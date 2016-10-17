@@ -34,7 +34,7 @@ class ServiceError extends APIError {
 }
 
 // The endpoint where the Wikitude Cloud Targets API resides.
-var API_ENDPOINT_ROOT       = "api-cn.wikitude.com";
+var API_ENDPOINT_ROOT       = "api.wikitude.com";
 
 // placeholders used for url-generation
 var PLACEHOLDER_TC_ID       = "${TC_ID}";
