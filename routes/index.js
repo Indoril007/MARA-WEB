@@ -197,6 +197,7 @@ router.post('/targetCollections/:id/targetupload', requireLogin, function(req, r
 		}).then(archive => {
 			console.log(`generated cloud archive: ${archive.id}`);
 		}, rejected => {
+			console.log(req.body.target.imageUrl);
 			console.log(rejected);
 		});
 
