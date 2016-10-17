@@ -179,7 +179,9 @@ router.post('/targetCollections/:id/targetupload', requireLogin, function(req, r
 	collection.targets.push(newTarget);
 	req.marasession.user.save();
 
-	var fullUrl = req.protocol + '://' + req.get('host') + newTarget.imgUrl;
+	// var fullUrl = req.protocol + '://' + req.get('host') + newTarget.imgUrl;
+	var fullUrl = 'http' + '://' + 'ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001' + newTarget.imgUrl;
+
 	req.body.target = {name: newTarget.name, imageUrl: fullUrl };
 	req.body.filename = newTarget._id + '.' + req.body.extension; 
 
