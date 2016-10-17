@@ -8,6 +8,7 @@ var app = require('../app');
 var debug = require('debug')('mara-proto:server');
 var fs = require('fs');
 var https = require('https');
+var http = require('http');
 
 /**
  * Get SSL key and cert
