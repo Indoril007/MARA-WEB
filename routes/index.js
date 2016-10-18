@@ -306,7 +306,7 @@ router.get('/collection/:name', cors(), function(req, res, next) {
 		}], function (err, targetCollection) {
 		if (err) console.log(err);
 		res.set('Content-Type', 'application/json');
-		res.end(JSON.stringify({"targetCollection": targetCollection}));
+		res.end(JSON.stringify(targetCollection));
 	})
 
 });
