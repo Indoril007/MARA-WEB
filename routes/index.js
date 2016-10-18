@@ -9,6 +9,10 @@ var models = require('./../models/models.js');
 var https = require('https');
 var router = express.Router();
 
+// HOST NAMES
+var HTTPHOSTNAME = 'http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001';
+var HTTPSHOSTNAME = 'https://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3000';
+
 // token and API creating for wikitude API
 var token = process.argv[3];;
 var targetsApi = new ManagerApi(token, 2);
