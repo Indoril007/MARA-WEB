@@ -287,7 +287,7 @@ router.get('/demo/:name', cors(), function(req, res, next) {
 
 router.get('/collection/:name', cors(), function(req, res, next) {
 
-	User.findOne({'targetCollections.name': req.body.name}, {name: targetCollections.name, imgUrl: targetCollections.wikitudeCollectionID, targets: targetCollections.targets}, function (err, targetCollection) {
+	User.findOne({'targetCollections.name': req.body.name}, 'targetCollections.name targetCollections.wikitudeCollectionID targetCollections.targets', function (err, targetCollection) {
 		if (err) console.log(err);
 		res.set('Content-Type', 'application/json');
 		res.end(JSON.stringify({"targetCollection": targetCollection}));
