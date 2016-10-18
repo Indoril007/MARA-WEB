@@ -312,7 +312,7 @@ router.get('/collection/:name', cors(), function(req, res, next) {
 			targetsObject[targets[i].name] = targets[i];
 		}	
 
-		targetsObject["wikitudeCollectionID"] = targetCollection[0].wikitudeCollectionID;
+		collectionObject = {"targets": targetsObject, "wikitudeCollectionID": targetCollection[0].wikitudeCollectionID};
 
 		if (err) console.log(err);
 		res.set('Content-Type', 'application/json');
