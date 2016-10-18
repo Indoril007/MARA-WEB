@@ -304,9 +304,17 @@ router.get('/collection/:name', cors(), function(req, res, next) {
 				"targets": "$targetCollections.targets",
 			}
 		}], function (err, targetCollection) {
+
+		var targets = targetCollection.targts;
+		var targetsObject = {}
+
+		for (let i = 0; i < targets.length; i++) {
+			targetsObject[targets[i].name] = targets[i];
+		}	
+
 		if (err) console.log(err);
 		res.set('Content-Type', 'application/json');
-		res.end(JSON.stringify(targetCollection));
+		res.end(JSON.stringify(targetsObject));
 	})
 
 });
