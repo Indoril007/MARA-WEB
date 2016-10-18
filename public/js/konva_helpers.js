@@ -224,7 +224,7 @@ function addDragAnchor(group, background, augm, name) {
         augm.X = (augm.X / background.width) - 0.5;					// wikitude take center of image as origin, canvas take top left corner as origin
         augm.X = augm.X * background.width / background.height;		// extra step: originally was scaled to the target width. this convert the offset X to scale of SDU
         augm.Y = group.getY() + (bottomRight.getY() / 2);
-        augm.Y = ((augm.Y / background.height) - 0.5) * -1;			// wikitude take upwards as +ve, canvas take downwards as -ve
+        augm.Y = ((augm.Y / background.height) - 0.5);			// wikitude take upwards as +ve, canvas take downwards as -ve
 
         console.log("Group X is " + augm.X);
         console.log("Group Y is " + augm.Y);
