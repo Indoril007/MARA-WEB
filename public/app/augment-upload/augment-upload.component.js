@@ -7,6 +7,8 @@ angular.
     controller: ['$scope', '$location', '$window', '$http', '$routeParams', function($scope, $location, $window, $http, $routeParams) {
 		var self = this;
 
+		self.buttonMessage = "Submit Augmentations" 
+
 		self.collectionId = $routeParams.collectionid;
 		self.targetId = $routeParams.targetid;
 		self.target = null;
@@ -51,10 +53,12 @@ angular.
 				// Deleting img attached to augmentations object for transfer more efficient transfer to server.
 
 				self.augmentations[i].img = null;
+				self.buttonMessage = "Submitting...";	
 
 				$http.post('/targetCollections/' + self.collectionId + '/targets/' + self.targetId + '/augmentupload', {
 					augmentation: self.augmentations[i]
 				}).then(response => {
+					self.buttonMessage = "Successfully Submitted";
 					console.log(response.data);
 				});
 

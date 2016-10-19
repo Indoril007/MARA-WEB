@@ -6,7 +6,7 @@
 
   <div id="dropzone" class="col-md-7" drag-and-drop></div>
 
-  <div ng-show="$ctrl.showSubmitButton" id="submit-augmentations-button" class="col-md-5"><button ng-click="$ctrl.submitAugmentations()" class="btn btn-primary" type="submit">Submit Augmentations</button></div>
+  <div ng-show="$ctrl.showSubmitButton" id="submit-augmentations-button" class="col-md-5"><button ng-click="$ctrl.submitAugmentations()" class="btn btn-primary" type="submit">{{ $ctrl.buttonMessage }}</button></div>
   <div id="augment-input-group" ng-repeat="augmentation in $ctrl.augmentations">
     <div id="augment-name-input" class="input-group input-group-sm col-md-5">
       <input type="text" placeholder="{{ augmentation.id }}: Augmentation Name" ng-model="augmentation.name" class="form-control input-sm" aria-label="...">
