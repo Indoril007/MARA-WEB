@@ -52,11 +52,11 @@ router.use(function(req, res, next) {
 		User.findOne( { 'email': req.marasession.user.email} , function(err, user) {
 			if (err) console.log(err);
 			if (user) {
+				console.log(req.marasession.user.email);
 				req.user = user;
 				delete req.user.sub;
 				req.marasession.user = req.user;
 			} else {
-				console.log('req.marasession.user.email');
 			}
 			next();
 		});
