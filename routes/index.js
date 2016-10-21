@@ -50,10 +50,13 @@ var getToken = function(endpoint) {
 router.use(function(req, res, next) {
 	if (req.marasession && req.marasession.user) {
 		User.findOne( { 'email': req.marasession.user.email} , function(err, user) {
+			if (err) console.log(err);
 			if (user) {
 				req.user = user;
 				delete req.user.sub;
 				req.marasession.user = req.user;
+			} else {
+				console.log('req.marasession.user.email');
 			}
 			next();
 		});
