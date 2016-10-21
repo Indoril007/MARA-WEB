@@ -67,8 +67,10 @@ router.use(function(req, res, next) {
 
 function requireLogin(req, res, next) {
 	if (!req.user) {
+		console.log('req.user not found in authentication')
 		res.status(401).end();
 	} else {
+		console.log('user found in authentication')
 		next();
 	};
 }
