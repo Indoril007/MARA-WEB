@@ -98,7 +98,7 @@ router.post('/login', function(req, res, next) {
 			} else {
 				console.log("USER FOUND: " + user.name);
 			}
-
+			console.log('LOGIN')
 		  	req.marasession.user = user;
 			res.end();
 		})
