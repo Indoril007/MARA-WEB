@@ -63,6 +63,7 @@ router.use(function(req, res, next) {
 		});
 	} else {
 		console.log('NO');
+		console.log(req.marasession);
 		next();
 	}
 });
@@ -100,6 +101,8 @@ router.post('/login', function(req, res, next) {
 			}
 			console.log('LOGIN')
 		  	req.marasession.user = user;
+		  	console.log('SESSIONS')
+		  	console.log(req.marasession);
 			res.end();
 		})
 	});
