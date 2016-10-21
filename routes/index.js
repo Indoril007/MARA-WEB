@@ -48,6 +48,7 @@ var getToken = function(endpoint) {
 // Middle ware for sessions
 
 router.use(function(req, res, next) {
+	console.log('ROUTER USE');
 	if (req.marasession && req.marasession.user) {
 		User.findOne( { 'email': req.marasession.user.email} , function(err, user) {
 			if (err) console.log(err);
