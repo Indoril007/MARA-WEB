@@ -62,6 +62,7 @@ router.use(function(req, res, next) {
 			next();
 		});
 	} else {
+		console.log('NO');
 		next();
 	}
 });
