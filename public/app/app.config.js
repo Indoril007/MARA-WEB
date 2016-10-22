@@ -23,7 +23,7 @@ angular.module('mara-app')
 			resolve: {auth: authenticate},
 		}).
 		when('/login', {
-			template: '<img src="../assets/splash-land-xhdpi.png">', 
+			template: '<img id="mara-logo-back" src="../assets/splash-land-xhdpi.png">', 
 		}).
 		when('/dashboard', {
 			template: '<dashboard></dashboard>',
